@@ -1,0 +1,42 @@
+/**
+ * @Project NUKEVIET 4.x
+ * @Author TDFOSS.,LTD (contact@tdfoss.vn)
+ * @Copyright (C) 2018 TDFOSS.,LTD. All rights reserved
+ * @Createdate Tue, 02 Jan 2018 08:34:29 GMT
+ */
+.full-ul-li li {
+    width: 20% !important;
+}
+
+.red {
+    color: red
+}
+
+.button_fixed_bottom {
+    background-color: #ccc;
+    z-index: 999999;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    margin: 0
+}
+
+.ui-timepicker-standard {
+    z-index: 99999999 !important
+}
+
+.ui-timepicker-viewport {
+    text-align: left
+}
+
+table.row-click tr {
+    cursor: pointer;
+}
+
+.handsontable td, .handsontable th {
+    line-height: 35px !important;
+}
+.vỉew_click {
+cursor:pointer;				
+}
