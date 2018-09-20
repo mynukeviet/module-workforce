@@ -13,11 +13,11 @@ if ($nv_Request->isset_request('get_user_json', 'post, get')) {
     $q = $nv_Request->get_title('q', 'post, get', '');
 
     $db->sqlreset()
-        ->select('userid, username, email, first_name, last_name')
-        ->from(NV_USERS_GLOBALTABLE)
-        ->where('( username LIKE :username OR email LIKE :email OR first_name like :first_name OR last_name like :last_name )')
-        ->order('username ASC')
-        ->limit(20);
+    ->select('userid, username, email, first_name, last_name')
+    ->from(NV_USERS_GLOBALTABLE)
+    ->where('( username LIKE :username OR email LIKE :email OR first_name like :first_name OR last_name like :last_name )')
+    ->order('username ASC')
+    ->limit(20);
 
     $sth = $db->prepare($db->sql());
     $sth->bindValue(':username', '%' . $q . '%', PDO::PARAM_STR);
@@ -47,16 +47,8 @@ if ($nv_Request->isset_request('delete_id', 'get') and $nv_Request->isset_reques
     $id = $nv_Request->get_int('delete_id', 'get');
     $delete_checkss = $nv_Request->get_string('delete_checkss', 'get');
     if ($id > 0 and $delete_checkss == md5($id . NV_CACHE_PREFIX . $client_info['session_id'])) {
-
-        $userid = $db->query('SELECT userid FROM ' . NV_PREFIXLANG . '_' . $module_data . ' WHERE id=' . $id)->fetchColumn();
-        $fullname = $workforce_list[$userid]['fullname'];
-
         nv_workforce_delete($id);
-
-        nv_insert_logs(NV_LANG_DATA, $module_name, $lang_module['title_workforce'], $workforce_list[$user_info['userid']]['fullname'] . " " . $lang_module['delete_workforce'] . " " . $fullname, $user_info['userid']);
-
         $nv_Cache->delMod($module_name);
-
         Header('Location: ' . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op);
         die();
     }
@@ -65,17 +57,9 @@ if ($nv_Request->isset_request('delete_id', 'get') and $nv_Request->isset_reques
     $array_id = explode(',', $listall);
 
     if (!empty($array_id)) {
-        $array_name = array();
         foreach ($array_id as $id) {
-            $userid = $db->query('SELECT userid FROM ' . NV_PREFIXLANG . '_' . $module_data . ' WHERE id=' . $id)->fetchColumn();
-            if ($userid) {
-                $array_name[] = $workforce_list[$userid]['fullname'];
-            }
             nv_workforce_delete($id);
         }
-
-        nv_insert_logs(NV_LANG_DATA, $module_name, $lang_module['title_workforce'], $workforce_list[$user_info['userid']]['fullname'] . " " . $lang_module['delete_many_workforce'] . " " . implode(', ', $array_name), $user_info['userid']);
-
         $nv_Cache->delMod($module_name);
         die('OK');
     }
@@ -87,8 +71,8 @@ $q = $nv_Request->get_title('q', 'post,get');
 $per_page = 20;
 $page = $nv_Request->get_int('page', 'post,get', 1);
 $db->sqlreset()
-    ->select('COUNT(*)')
-    ->from('' . NV_PREFIXLANG . '_' . $module_data);
+->select('COUNT(*)')
+->from('' . NV_PREFIXLANG . '_' . $module_data);
 
 if (!empty($q)) {
     $db->where('first_name LIKE :q_first_name OR last_name LIKE :q_last_name OR gender LIKE :q_gender OR birthday LIKE :q_birthday OR main_phone LIKE :q_main_phone OR main_email LIKE :q_main_email');
@@ -107,9 +91,9 @@ $sth->execute();
 $num_items = $sth->fetchColumn();
 
 $db->select('*')
-    ->order('id DESC')
-    ->limit($per_page)
-    ->offset(($page - 1) * $per_page);
+->order('id DESC')
+->limit($per_page)
+->offset(($page - 1) * $per_page);
 $sth = $db->prepare($db->sql());
 
 if (!empty($q)) {
@@ -152,7 +136,6 @@ while ($view = $sth->fetch()) {
     $view['birthday'] = (empty($view['birthday'])) ? '' : nv_date('d/m/Y', $view['birthday']);
     $view['gender'] = $array_gender[$view['gender']];
     $view['fullname'] = nv_show_name_user($view['first_name'], $view['last_name']);
-    $view['link_view'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=detail&amp;id=' . $view['id'] . ' ';
     if (nv_workforce_check_premission()) {
         $view['link_edit'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=content&amp;id=' . $view['id'];
         $view['link_delete'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;delete_id=' . $view['id'] . '&amp;delete_checkss=' . md5($view['id'] . NV_CACHE_PREFIX . $client_info['session_id']);
