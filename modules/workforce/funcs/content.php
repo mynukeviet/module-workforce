@@ -9,6 +9,15 @@
  */
 if (!defined('NV_IS_MOD_WORKFORCE')) die('Stop!!!');
 
+$array_part = $db->query('SELECT id FROM ' . NV_PREFIXLANG . '_' . $module_data . '_part')->fetch();
+if (empty($array_part)) {
+    $url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=part';
+    $contents = nv_theme_alert($lang_module['error_data_part_title'], $lang_module['error_data_part_content'], 'danger', $url, $lang_module['part_manage']);
+    include NV_ROOTDIR . '/includes/header.php';
+    echo nv_site_theme($contents);
+    include NV_ROOTDIR . '/includes/footer.php';
+}
+
 $row = array();
 $error = array();
 $row['id'] = $nv_Request->get_int('id', 'post,get', 0);
@@ -152,7 +161,6 @@ if ($nv_Request->isset_request('submit', 'post')) {
 
             if ($new_id > 0) {
 
-
                 if ($row['part'] != $row['part_old']) {
                     $sth = $db->prepare('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail (userid, part) VALUES(:userid, :part)');
                     foreach ($row['part'] as $partid) {
@@ -176,7 +184,6 @@ if ($nv_Request->isset_request('submit', 'post')) {
                 }
 
                 $nv_Cache->delMod($module_name);
-
 
                 if (!empty($row['redirect'])) {
 

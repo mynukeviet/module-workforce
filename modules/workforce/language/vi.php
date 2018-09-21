@@ -80,6 +80,7 @@ $lang_module['part'] = 'Bộ phận';
 $lang_module['alias'] = 'Liên kết tĩnh';
 $lang_module['office'] = 'Văn phòng';
 $lang_module['part_parent'] = 'Thuộc bộ phận';
+$lang_module['part_manage'] = 'Thêm bộ phận';
 $lang_module['workforce_content'] = 'Danh sách nhận sự đang trống. Click vào <a href="%s" title=""><strong>đây</strong></a> để thêm mới nhân sự.';
 
 $lang_module['error_required_userid'] = 'Lỗi: bạn cần chọn Tài khoản thành viên';
@@ -89,3 +90,5 @@ $lang_module['error_required_gender'] = 'Lỗi: bạn cần nhập dữ liệu c
 $lang_module['error_required_birthday'] = 'Lỗi: bạn cần nhập dữ liệu cho Ngày sinh';
 $lang_module['error_empty_data'] = 'Bạn cần chọn dữ liệu để thực hiện!';
 $lang_module['error_unknow'] = 'Vì một lý do nào đó hệ thống không thể đáp ứng yêu cầu của bạn lúc này,  vui lòng liên hệ với người quản trị để biết thêm thông tin.';
+$lang_module['error_data_part_title'] = 'Hiện tại bộ phận đang trống';
+$lang_module['error_data_part_content'] = 'Bạn cần thêm bộ phận trước khi thêm nhân sự, vui lòng trở lại';
