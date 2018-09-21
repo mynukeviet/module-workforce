@@ -76,6 +76,10 @@ $lang_module['status_1'] = 'Hoạt động';
 $lang_module['status_0'] = 'Ngưng hoạt động';
 $lang_module['workforce_edit'] = 'Sửa nhân sự';
 $lang_module['info'] = 'Thông tin cá nhân';
+$lang_module['part'] = 'Bộ phận';
+$lang_module['alias'] = 'Liên kết tĩnh';
+$lang_module['office'] = 'Văn phòng';
+$lang_module['part_parent'] = 'Thuộc bộ phận';
 
 $lang_module['error_required_userid'] = 'Lỗi: bạn cần chọn Tài khoản thành viên';
 $lang_module['error_required_first_name'] = 'Lỗi: bạn cần nhập dữ liệu cho Tên';

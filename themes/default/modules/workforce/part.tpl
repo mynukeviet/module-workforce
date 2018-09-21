@@ -5,11 +5,11 @@
     <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover">
             <colgroup>
-                <col class="w100" />
+                <col class="w50" />
                 <col />
                 <col />
+                <col class="w50" />
                 <col class="w100" />
-                <col class="w150" />
             </colgroup>
             <thead>
                 <tr>
