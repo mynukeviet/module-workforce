@@ -1,15 +1,14 @@
 <!-- BEGIN: main -->
-
 <!-- BEGIN: view -->
 <form action="{NV_BASE_SITEURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" method="post">
     <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover">
             <colgroup>
-                <col class="w50" />
+                <col width="50"/>
                 <col />
                 <col />
-                <col class="w50" />
-                <col class="w100" />
+                <col width="50" />
+                <col width="100" />
             </colgroup>
             <thead>
                 <tr>
