@@ -45,7 +45,8 @@
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.birthday}</strong> <span class="red">(*)</span></label>
                 <div class="col-sm-19 col-md-20">
                     <div class="input-group">
-                        <input class="form-control datepicker" type="text" name="birthday" value="{ROW.birthday}" autocomplete="off"/> <span class="input-group-btn">
+                        <input class="form-control datepicker" type="text" name="birthday" value="{ROW.birthday}" autocomplete="off"/> 
+                        <span class="input-group-btn">
                             <button class="btn btn-default" type="button" id="birthday-btn">
                                 <em class="fa fa-calendar fa-fix"> </em>
                             </button>
@@ -93,12 +94,23 @@
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.jointime}</strong></label>
                 <div class="col-sm-19 col-md-20">
                     <div class="input-group">
-                        <input class="form-control datepicker" type="text" name="jointime" value="{ROW.jointime}" pattern="^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{1,4}$" /> <span class="input-group-btn">
+                        <input class="form-control datepicker" type="text" name="jointime" value="{ROW.jointime}" pattern="^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{1,4}$" /> 
+                        <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
                                 <em class="fa fa-calendar fa-fix"> </em>
                             </button>
                         </span>
                     </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.part}</strong> </label>
+                <div class="col-sm-19 col-md-20">
+                    <select class="form-control "  style="height: 200px;" cols="75" name="part[]" multiple="multiple" id="part">
+                        <!-- BEGIN: parent_loop -->
+                        <option value="{pid}"{pselect}>{ptitle}</option>
+                        <!-- END: parent_loop -->
+                    </select>
                 </div>
             </div>
             <div class="form-group">

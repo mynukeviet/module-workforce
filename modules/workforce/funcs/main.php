@@ -15,7 +15,7 @@ if ($nv_Request->isset_request('get_user_json', 'post, get')) {
     $db->sqlreset()
         ->select('userid, username, email, first_name, last_name')
         ->from(NV_USERS_GLOBALTABLE)
-        ->where('( username LIKE :username OR email LIKE :email OR first_name like :first_name OR last_name like :last_name )')
+        ->where('( username LIKE :username OR email LIKE :email OR first_name like :first_name OR last_name like :last_name ) AND userid NOT IN (SELECT userid FROM ' . NV_PREFIXLANG . '_' . $module_data . ')')
         ->order('username ASC')
         ->limit(20);
 
