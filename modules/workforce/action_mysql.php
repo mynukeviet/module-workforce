@@ -84,7 +84,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
 ) ENGINE=MyISAM";
 
 $data = array();
-$$data['groups_admin'] = '1';
+$data['groups_admin'] = '1';
 $data['groups_use'] = '';
 
 foreach ($data as $config_name => $config_value) {
