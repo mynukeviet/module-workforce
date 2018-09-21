@@ -80,6 +80,7 @@ $lang_module['part'] = 'Bộ phận';
 $lang_module['alias'] = 'Liên kết tĩnh';
 $lang_module['office'] = 'Văn phòng';
 $lang_module['part_parent'] = 'Thuộc bộ phận';
+$lang_module['workforce_content'] = 'Danh sách nhận sự đang trống. Click vào <a href="%s" title=""><strong>đây</strong></a> để thêm mới nhân sự.';
 
 $lang_module['error_required_userid'] = 'Lỗi: bạn cần chọn Tài khoản thành viên';
 $lang_module['error_required_first_name'] = 'Lỗi: bạn cần nhập dữ liệu cho Tên';
