@@ -98,12 +98,6 @@ if ($nv_Request->isset_request('submit', 'post')) {
     }
 
     $part = !empty($row['part']) ? implode(',', $row['part']) : '';
-    if (empty($part)) {
-        $contents = nv_theme_alert($lang_module['title_no_part'], $lang_module['content_no_part'], 'danger');
-        include NV_ROOTDIR . '/includes/header.php';
-        echo nv_site_theme($contents);
-        include NV_ROOTDIR . '/includes/footer.php';
-    }
 
     if (empty($row['userid'])) {
         $error[] = $lang_module['error_required_userid'];
