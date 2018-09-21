@@ -81,7 +81,7 @@ $lang_module['alias'] = 'Liên kết tĩnh';
 $lang_module['office'] = 'Văn phòng';
 $lang_module['part_parent'] = 'Thuộc bộ phận';
 $lang_module['error_data_part_title'] = 'Hiện tại bộ phận đang trống';
-$lang_module['error_data_part_content'] = 'Bạn phải thêm bộ phận để thêm nhân sự, vui lòng trở lại';
+$lang_module['error_data_part_content'] = 'Bạn cần thêm bộ phận trước khi thêm nhân sự, vui lòng trở lại';
 $lang_module['part_manage'] = 'Thêm bộ phận';
 
 $lang_module['error_required_userid'] = 'Lỗi: bạn cần chọn Tài khoản thành viên';
