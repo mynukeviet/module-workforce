@@ -148,6 +148,12 @@ if (nv_workforce_check_premission()) {
     $xtpl->parse('main.manage');
 }
 
+if (empty($sth->rowCount())) {
+    $url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=content';
+    $xtpl->assign('WORKFORCE_CONTENT', sprintf($lang_module['workforce_content'], $url));
+    $xtpl->parse('main.workforce_content');
+}
+
 $number = $page > 1 ? ($per_page * ($page - 1)) + 1 : 1;
 while ($view = $sth->fetch()) {
     $view['number'] = $number++;

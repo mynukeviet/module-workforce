@@ -7,7 +7,6 @@
  * @License GNU/GPL version 2 or any later version
  * @Createdate Tue, 02 Jun 2015 07:53:31 GMT
  */
-
 if (!defined('NV_IS_MOD_WORKFORCE')) die('Stop!!!');
 
 if ($nv_Request->isset_request('get_alias_title', 'post')) {
@@ -284,6 +283,10 @@ $xtpl->parse('main');
 $contents = $xtpl->text('main');
 
 $page_title = $lang_module['part'];
+$array_mod_title[] = array(
+    'title' => $page_title
+);
+
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);
 include NV_ROOTDIR . '/includes/footer.php';
