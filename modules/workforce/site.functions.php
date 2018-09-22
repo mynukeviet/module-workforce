@@ -10,6 +10,26 @@ if (!defined('NV_MAINFILE')) die('Stop!!!');
 
 $workforce_list = nv_crm_list_workforce();
 
+$sql = 'SELECT id, title, lev FROM ' . NV_PREFIXLANG . '_' . $module_data . '_part WHERE status=1 ORDER BY sort ASC';
+$result = $db->query($sql);
+$array_part_list = array();
+
+while (list ($id_i, $title_i, $lev_i) = $result->fetch(3)) {
+    $xtitle_i = '';
+    if ($lev_i > 0) {
+        $xtitle_i .= '&nbsp;';
+        for ($i = 1; $i <= $lev_i; $i++) {
+            $xtitle_i .= '---';
+        }
+    }
+    $xtitle_i .= $title_i;
+    $array_part_list[$id_i] = array(
+        $id_i,
+        $xtitle_i
+    );
+}
+
+
 function nv_crm_list_workforce($in_groups = '')
 {
     global $db, $nv_Cache, $module_info;
