@@ -47,16 +47,11 @@ if ($nv_Request->isset_request('delete_id', 'get') and $nv_Request->isset_reques
     $id = $nv_Request->get_int('delete_id', 'get');
     $delete_checkss = $nv_Request->get_string('delete_checkss', 'get');
     if ($id > 0 and $delete_checkss == md5($id . NV_CACHE_PREFIX . $client_info['session_id'])) {
-
         $userid = $db->query('SELECT userid FROM ' . NV_PREFIXLANG . '_' . $module_data . ' WHERE id=' . $id)->fetchColumn();
         $fullname = $workforce_list[$userid]['fullname'];
-
         nv_workforce_delete($id);
-
         nv_insert_logs(NV_LANG_DATA, $module_name, $lang_module['title_workforce'], $workforce_list[$user_info['userid']]['fullname'] . " " . $lang_module['delete_workforce'] . " " . $fullname, $user_info['userid']);
-
         $nv_Cache->delMod($module_name);
-
         Header('Location: ' . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op);
         die();
     }
@@ -82,44 +77,51 @@ if ($nv_Request->isset_request('delete_id', 'get') and $nv_Request->isset_reques
     die('NO');
 }
 
-$q = $nv_Request->get_title('q', 'post,get');
+$array_search = array(
+    'q' => $nv_Request->get_title('q', 'post,get'),
+    'part' => $nv_Request->get_int('part', 'post,get')
+);
 
+$q = $nv_Request->get_title('q', 'post,get');
+$where = '';
+$inner = '';
 $per_page = 20;
 $page = $nv_Request->get_int('page', 'post,get', 1);
 $db->sqlreset()
     ->select('COUNT(*)')
-    ->from('' . NV_PREFIXLANG . '_' . $module_data);
+    ->from('' . NV_PREFIXLANG . '_' . $module_data . ' t1');
 
-if (!empty($q)) {
-    $db->where('first_name LIKE :q_first_name OR last_name LIKE :q_last_name OR gender LIKE :q_gender OR birthday LIKE :q_birthday OR main_phone LIKE :q_main_phone OR main_email LIKE :q_main_email');
+if (!empty($array_search['q'])) {
+    $base_url .= '&q=' . $array_search['q'];
+    $where .= ' AND (first_name LIKE "%' . $array_search['q'] . '%"
+        OR last_name LIKE "%' . $array_search['q'] . '%"
+        OR gender LIKE "%' . $array_search['q'] . '%"
+        OR birthday LIKE "%' . $array_search['q'] . '%"
+        OR main_phone LIKE "%' . $array_search['q'] . '%"
+        OR main_email LIKE "%' . $array_search['q'] . '%"
+    )';
 }
+
+if (!empty($array_search['part'])) {
+    $inner .= ' INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail t2 on t1.id = t2.userid ';
+    $base_url .= '&part=' . $array_search['part'];
+    $where .= ' AND t2.part=' . $array_search['part'];
+}
+
 $sth = $db->prepare($db->sql());
 
-if (!empty($q)) {
-    $sth->bindValue(':q_first_name', '%' . $q . '%');
-    $sth->bindValue(':q_last_name', '%' . $q . '%');
-    $sth->bindValue(':q_gender', '%' . $q . '%');
-    $sth->bindValue(':q_birthday', '%' . $q . '%');
-    $sth->bindValue(':q_main_phone', '%' . $q . '%');
-    $sth->bindValue(':q_main_email', '%' . $q . '%');
-}
 $sth->execute();
 $num_items = $sth->fetchColumn();
 
 $db->select('*')
-    ->order('id DESC')
+    ->order('t1.id DESC')
     ->limit($per_page)
-    ->offset(($page - 1) * $per_page);
+    ->offset(($page - 1) * $per_page)
+    ->join($inner)
+    ->where(' 1=1 ' . $where);
+
 $sth = $db->prepare($db->sql());
 
-if (!empty($q)) {
-    $sth->bindValue(':q_first_name', '%' . $q . '%');
-    $sth->bindValue(':q_last_name', '%' . $q . '%');
-    $sth->bindValue(':q_gender', '%' . $q . '%');
-    $sth->bindValue(':q_birthday', '%' . $q . '%');
-    $sth->bindValue(':q_main_phone', '%' . $q . '%');
-    $sth->bindValue(':q_main_email', '%' . $q . '%');
-}
 $sth->execute();
 
 $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op;
@@ -176,6 +178,16 @@ foreach ($array_action as $key => $value) {
     ));
     $xtpl->parse('main.action_top');
     $xtpl->parse('main.action_bottom');
+}
+
+foreach ($array_part_list as $key => $value) {
+    //         var_dump($array_search['q']);die;
+    $xtpl->assign('PART', array(
+        'key' => $key,
+        'value' => $value[1],
+        'selected' => ($key == $array_search['part']) ? ' selected="selected"' : ''
+    ));
+    $xtpl->parse('main.select_part');
 }
 
 $xtpl->parse('main');

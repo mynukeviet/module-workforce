@@ -83,6 +83,7 @@ $lang_module['part_parent'] = 'Thuộc bộ phận';
 $lang_module['error_data_part_title'] = 'Hiện tại bộ phận đang trống';
 $lang_module['error_data_part_content'] = 'Bạn cần thêm bộ phận trước khi thêm nhân sự, vui lòng trở lại';
 $lang_module['part_manage'] = 'Thêm bộ phận';
+$lang_module['select_part'] = 'Chọn bộ phận';
 
 $lang_module['error_required_userid'] = 'Lỗi: bạn cần chọn Tài khoản thành viên';
 $lang_module['error_required_first_name'] = 'Lỗi: bạn cần nhập dữ liệu cho Tên';

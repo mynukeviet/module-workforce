@@ -50,6 +50,10 @@
                     </select>
                 </td>
             </tr>
+            <tr>
+                <th>{LANG.part}</th>
+                <td>{WORKFORCE.part}</td>
+            </tr>
         </tbody>
     </table>
 </div>

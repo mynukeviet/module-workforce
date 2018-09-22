@@ -8,6 +8,16 @@
                     <input class="form-control" type="text" value="{Q}" name="q" maxlength="255" placeholder="{LANG.search_title}" />
                 </div>
             </div>
+             <div class="col-xs-24 col-md-6">
+                <div class="form-group">
+                     <select class="form-control" name="part">
+                        <option value="0">---{LANG.select_part}---</option>
+                        <!-- BEGIN: select_part -->
+                        <option value="{PART.key}"{PART.selected}>{PART.value}</option>
+                        <!-- END: select_part -->
+                    </select>
+                </div>
+            </div>
             <div class="col-xs-12 col-md-3">
                 <div class="form-group">
                     <input class="btn btn-primary" type="submit" value="{LANG.search_submit}" />

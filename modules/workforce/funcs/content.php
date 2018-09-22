@@ -199,25 +199,6 @@ if ($nv_Request->isset_request('submit', 'post')) {
     }
 }
 
-$sql = 'SELECT id, title, lev FROM ' . NV_PREFIXLANG . '_' . $module_data . '_part WHERE id !=' . $row['id'] . ' AND status=1 ORDER BY sort ASC';
-$result = $db->query($sql);
-$array_part_list = array();
-
-while (list ($id_i, $title_i, $lev_i) = $result->fetch(3)) {
-    $xtitle_i = '';
-    if ($lev_i > 0) {
-        $xtitle_i .= '&nbsp;';
-        for ($i = 1; $i <= $lev_i; $i++) {
-            $xtitle_i .= '---';
-        }
-    }
-    $xtitle_i .= $title_i;
-    $array_part_list[$id_i] = array(
-        $id_i,
-        $xtitle_i
-    );
-}
-
 $row['birthday'] = !empty($row['birthday']) ? date('d/m/Y', $row['birthday']) : '';
 $row['jointime'] = !empty($row['jointime']) ? date('d/m/Y', $row['jointime']) : '';
 $row['salary'] = !empty($row['salary']) ? $row['salary'] : '';
