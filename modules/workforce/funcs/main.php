@@ -79,7 +79,8 @@ if ($nv_Request->isset_request('delete_id', 'get') and $nv_Request->isset_reques
 
 $array_search = array(
     'q' => $nv_Request->get_title('q', 'post,get'),
-    'part' => $nv_Request->get_int('part', 'post,get')
+    'part' => $nv_Request->get_int('part', 'post,get'),
+    'status' => $nv_Request->get_int('status', 'get', -1)
 );
 
 $q = $nv_Request->get_title('q', 'post,get');
@@ -107,6 +108,13 @@ if (!empty($array_search['part'])) {
     $base_url .= '&part=' . $array_search['part'];
     $where .= ' AND t2.part=' . $array_search['part'];
 }
+
+if ($array_search['status'] >= 0) {
+    $base_url .= '&status=' . $array_search['status'];
+    $where .= ' AND status=' . $array_search['status'];
+}
+
+
 
 $sth = $db->prepare($db->sql());
 
@@ -187,13 +195,21 @@ foreach ($array_action as $key => $value) {
 }
 
 foreach ($array_part_list as $key => $value) {
-    //         var_dump($array_search['q']);die;
     $xtpl->assign('PART', array(
         'key' => $key,
         'value' => $value[1],
         'selected' => ($key == $array_search['part']) ? ' selected="selected"' : ''
     ));
     $xtpl->parse('main.select_part');
+}
+
+foreach ($array_status as $key => $value) {
+    $xtpl->assign('STATUS', array(
+        'key' => $key,
+        'value' => $value,
+        'selected' => ($key ==  $array_search['status']) ? 'selected = "selected"' : ''
+    ));
+    $xtpl->parse('main.select_status');
 }
 
 $xtpl->parse('main');
