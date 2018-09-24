@@ -82,6 +82,7 @@ $lang_module['office'] = 'Văn phòng';
 $lang_module['part_parent'] = 'Thuộc bộ phận';
 $lang_module['part_manage'] = 'Thêm bộ phận';
 $lang_module['select_part'] = 'Chọn bộ phận';
+$lang_module['select_status'] = 'Chọn trạng thái';
 $lang_module['workforce_content'] = 'Danh sách nhận sự đang trống. Click vào <a href="%s" title=""><strong>đây</strong></a> để thêm mới nhân sự.';
 
 

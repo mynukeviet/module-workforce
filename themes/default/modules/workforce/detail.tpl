@@ -11,14 +11,20 @@
             <tr>
                 <th width="220">{LANG.fullname}</th>
                 <td>{WORKFORCE.fullname}</td>
-                <th>{LANG.gender}</th>
-                <td>{WORKFORCE.gender}</td>
+                <th>{LANG.part}</th>
+                <td>{WORKFORCE.part}</td>
             </tr>
             <tr>
                 <th>{LANG.birthday}</th>
                 <td>{WORKFORCE.birthday}</td>
+                <th>{LANG.gender}</th>
+                <td>{WORKFORCE.gender}</td>
+            </tr>
+            <tr>
                 <th>{LANG.address}</th>
                 <td>{WORKFORCE.address}</td>
+                <th>{LANG.jointime}</th>
+                <td>{WORKFORCE.jointime}</td>
             </tr>
             <tr>
                 <th>{LANG.main_phone}</th>
@@ -39,8 +45,6 @@
                 <td>{WORKFORCE.edittime}</td>
             </tr>
             <tr>
-                <th>{LANG.jointime}</th>
-                <td>{WORKFORCE.jointime}</td>
                 <th>{LANG.status}</th>
                 <td>
                     <select class="form-control" style="width: 200px" id="change_status_{WORKFORCE.id}" onchange="nv_chang_status('{WORKFORCE.id}');">
@@ -49,10 +53,8 @@
                         <!-- END: status -->
                     </select>
                 </td>
-            </tr>
-            <tr>
-                <th>{LANG.part}</th>
-                <td>{WORKFORCE.part}</td>
+                <th></th>
+                <td></td>
             </tr>
         </tbody>
     </table>
