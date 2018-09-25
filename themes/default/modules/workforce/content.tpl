@@ -104,6 +104,12 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.position}</strong></label>
+                <div class="col-sm-19 col-md-20">
+                    <input class="form-control" type="text" name="position" value="{ROW.position}" />
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.part}</strong> </label>
                 <div class="col-sm-19 col-md-20">
                     <select class="form-control " style="height: 200px;" cols="75" name="part[]" multiple="multiple" id="part">

@@ -31,6 +31,7 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   knowledge text NOT NULL COMMENT 'Thông tin học vấn',
   image varchar(255) NOT NULL,
   jointime int(11) unsigned NOT NULL DEFAULT '0',
+  position varchar(100) NOT NULL,
   part varchar(100) NOT NULL COMMENT 'Thuộc bộ phận',
   salary double unsigned NOT NULL DEFAULT '0',
   allowance double unsigned NOT NULL DEFAULT '0',

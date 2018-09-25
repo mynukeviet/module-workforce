@@ -41,6 +41,7 @@ if ($row['id'] > 0) {
     $row['main_email'] = '';
     $row['other_email'] = '';
     $row['address'] = '';
+    $row['position'] = '';
     $row['knowledge'] = '';
     $row['image'] = '';
     $row['addtime'] = 0;
@@ -86,6 +87,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
     $row['main_email'] = $nv_Request->get_title('main_email', 'post', '');
     $row['other_email'] = $nv_Request->get_title('other_email', 'post', '');
     $row['address'] = $nv_Request->get_title('address', 'post', '');
+    $row['position'] = $nv_Request->get_title('position', 'post', '');
     $row['part'] = $nv_Request->get_typed_array('part', 'post', 'int');
     $row['knowledge'] = $nv_Request->get_string('knowledge', 'post', '');
     $row['image'] = $nv_Request->get_title('image', 'post', '');
@@ -111,13 +113,15 @@ if ($nv_Request->isset_request('submit', 'post')) {
         $error[] = $lang_module['error_required_main_phone'];
     } elseif (empty($row['main_email'])) {
         $error[] = $lang_module['error_required_main_email'];
+    } elseif (empty($row['position'])) {
+        $error[] = $lang_module['error_required_position'];
     }
 
     if (empty($error)) {
         try {
             if (empty($row['id'])) {
 
-                $_sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . ' (userid, first_name, last_name, gender, birthday, main_phone, other_phone, main_email, other_email, address, knowledge, image, jointime, part, salary, allowance, addtime, edittime, useradd) VALUES (:userid, :first_name, :last_name, :gender, :birthday, :main_phone, :other_phone, :main_email, :other_email, :address, :knowledge, :image, :jointime, :part, :salary, :allowance, ' . NV_CURRENTTIME . ', ' . NV_CURRENTTIME . ', ' . $user_info['userid'] . ')';
+                $_sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . ' (userid, first_name, last_name, gender, birthday, main_phone, other_phone, main_email, other_email, address, knowledge, image, jointime, position, part, salary, allowance, addtime, edittime, useradd) VALUES (:userid, :first_name, :last_name, :gender, :birthday, :main_phone, :other_phone, :main_email, :other_email, :address, :knowledge, :image, :jointime, :position, :part, :salary, :allowance, ' . NV_CURRENTTIME . ', ' . NV_CURRENTTIME . ', ' . $user_info['userid'] . ')';
                 $data_insert = array();
                 $data_insert['userid'] = $row['userid'];
                 $data_insert['first_name'] = $row['first_name'];
@@ -132,12 +136,13 @@ if ($nv_Request->isset_request('submit', 'post')) {
                 $data_insert['knowledge'] = $row['knowledge'];
                 $data_insert['image'] = $row['image'];
                 $data_insert['jointime'] = $row['jointime'];
+                $data_insert['position'] = $row['position'];
                 $data_insert['part'] = $part;
                 $data_insert['salary'] = $row['salary'];
                 $data_insert['allowance'] = $row['allowance'];
                 $new_id = $db->insert_id($_sql, 'id', $data_insert);
             } else {
-                $stmt = $db->prepare('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . ' SET userid = :userid, first_name = :first_name, last_name = :last_name, gender = :gender, birthday = :birthday, main_phone = :main_phone, other_phone = :other_phone, main_email = :main_email, other_email = :other_email, address = :address, knowledge = :knowledge, image = :image, jointime = :jointime, part = :part, salary = :salary, allowance = :allowance, edittime = ' . NV_CURRENTTIME . ' WHERE id=' . $row['id']);
+                $stmt = $db->prepare('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . ' SET userid = :userid, first_name = :first_name, last_name = :last_name, gender = :gender, birthday = :birthday, main_phone = :main_phone, other_phone = :other_phone, main_email = :main_email, other_email = :other_email, address = :address, knowledge = :knowledge, image = :image, jointime = :jointime, position = :position, part = :part, salary = :salary, allowance = :allowance, edittime = ' . NV_CURRENTTIME . ' WHERE id=' . $row['id']);
                 $stmt->bindParam(':userid', $row['userid'], PDO::PARAM_INT);
                 $stmt->bindParam(':first_name', $row['first_name'], PDO::PARAM_STR);
                 $stmt->bindParam(':last_name', $row['last_name'], PDO::PARAM_STR);
@@ -151,6 +156,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
                 $stmt->bindParam(':knowledge', $row['knowledge'], PDO::PARAM_STR, strlen($row['knowledge']));
                 $stmt->bindParam(':image', $row['image'], PDO::PARAM_STR);
                 $stmt->bindParam(':jointime', $row['jointime'], PDO::PARAM_INT);
+                $stmt->bindParam(':position', $row['position'], PDO::PARAM_INT);
                 $stmt->bindParam(':part', $part, PDO::PARAM_INT);
                 $stmt->bindParam(':salary', $row['salary'], PDO::PARAM_STR);
                 $stmt->bindParam(':allowance', $row['allowance'], PDO::PARAM_STR);
