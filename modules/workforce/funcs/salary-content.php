@@ -12,7 +12,7 @@ $maxdays = 24;
 $percent_overtime = 150;
 $groups_admin = $array_config['groups_admin'];
 $groups_use = $array_config['groups_use'];
-$current_month = nv_date('m/Y', strtotime("first day of previous month"));
+$current_month = $nv_Request->get_string('month', 'get', nv_date('m/Y', NV_CURRENTTIME));
 
 if ($nv_Request->isset_request('save_change', 'post')) {
     $data = $nv_Request->get_array('data', 'post');
@@ -78,6 +78,7 @@ if (!nv_user_in_groups($groups_admin)) {
     nv_info_die($lang_global['error_404_title'], $lang_global['error_404_title'], $lang_global['error_404_content'], 404);
 }
 
+$current_month = nv_date('m/Y', strtotime("first day of previous month"));
 $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 $array_users = array();
 $array_search = array(
