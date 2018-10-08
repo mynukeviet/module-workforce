@@ -40,9 +40,9 @@ function nv_workforce_check_premission()
 {
     global $array_config, $user_info;
 
-    if (empty($array_config['groups_manage'])) {
+    if (empty($array_config['groups_admin'])) {
         return false;
-    } elseif (!empty(array_intersect(explode(',', $array_config['groups_manage']), $user_info['in_groups']))) {
+    } elseif (!empty(array_intersect(explode(',', $array_config['groups_admin']), $user_info['in_groups']))) {
         return true;
     }
     return false;

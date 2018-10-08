@@ -162,7 +162,7 @@
             </div>
         </div>
     </div>
-    <div class="form-group text-center button_fixed_bottom">
+    <div class="form-group text-center">
         <input class="btn btn-primary" name="submit" type="submit" value="{LANG.save}" />
     </div>
 </form>
