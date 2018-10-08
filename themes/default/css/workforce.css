@@ -12,6 +12,10 @@
     color: red
 }
 
+#infoaccount {
+    display: none;
+}
+
 .button_fixed_bottom {
     background-color: #ccc;
     z-index: 999999;

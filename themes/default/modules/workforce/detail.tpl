@@ -15,16 +15,16 @@
                 <td>{WORKFORCE.part}</td>
             </tr>
             <tr>
+                <th>{LANG.position}</th>
+                <td>{WORKFORCE.position}</td>
                 <th>{LANG.birthday}</th>
                 <td>{WORKFORCE.birthday}</td>
-                <th>{LANG.gender}</th>
-                <td>{WORKFORCE.gender}</td>
             </tr>
             <tr>
+                <th>{LANG.gender}</th>
+                <td>{WORKFORCE.gender}</td>
                 <th>{LANG.address}</th>
                 <td>{WORKFORCE.address}</td>
-                <th>{LANG.jointime}</th>
-                <td>{WORKFORCE.jointime}</td>
             </tr>
             <tr>
                 <th>{LANG.main_phone}</th>
@@ -39,20 +39,21 @@
                 <td>{WORKFORCE.other_email}</td>
             </tr>
             <tr>
+                <th>{LANG.jointime}</th>
+                <td>{WORKFORCE.jointime}</td>
                 <th>{LANG.addtime}</th>
                 <td>{WORKFORCE.addtime}</td>
-                <th>{LANG.edittime}</th>
-                <td>{WORKFORCE.edittime}</td>
             </tr>
             <tr>
+                <th>{LANG.edittime}</th>
+                <td>{WORKFORCE.edittime}</td>
                 <th>{LANG.status}</th>
                 <td><select class="form-control" style="width: 200px" id="change_status_{WORKFORCE.id}" onchange="nv_chang_status('{WORKFORCE.id}');">
                         <!-- BEGIN: status -->
                         <option value="{STATUS.data}"{STATUS.selected}>{STATUS.value}</option>
                         <!-- END: status -->
-                </select></td>
-                <th></th>
-                <td></td>
+                    </select>
+                </td>
             </tr>
         </tbody>
     </table>

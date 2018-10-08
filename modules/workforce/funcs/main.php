@@ -114,8 +114,6 @@ if ($array_search['status'] >= 0) {
     $where .= ' AND status=' . $array_search['status'];
 }
 
-
-
 $sth = $db->prepare($db->sql());
 
 $sth->execute();
@@ -207,7 +205,7 @@ foreach ($array_status as $key => $value) {
     $xtpl->assign('STATUS', array(
         'key' => $key,
         'value' => $value,
-        'selected' => ($key ==  $array_search['status']) ? 'selected = "selected"' : ''
+        'selected' => ($key == $array_search['status']) ? 'selected = "selected"' : ''
     ));
     $xtpl->parse('main.select_status');
 }
