@@ -11,16 +11,6 @@
             <input type="hidden" name="id" value="{ROW.id}" />
             <input type="hidden" name="redirect" value="{ROW.redirect}" />
             <div class="form-group">
-                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.user_account}</strong> <span class="red">(*)</span></label>
-                <div class="col-sm-19 col-md-20">
-                    <select name="userid" id="userid" class="form-control">
-                        <!-- BEGIN: user_info -->
-                        <option value="{USER_INFO.userid}" selected="selected">{USER_INFO.fullname}</option>
-                        <!-- END: user_info -->
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.fullname}</strong> <span class="red">(*)</span></label>
                 <div class="col-sm-19 col-md-20">
                     <div class="row">
@@ -104,22 +94,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.position}</strong></label>
-                <div class="col-sm-19 col-md-20">
-                    <input class="form-control" type="text" name="position" value="{ROW.position}" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.part}</strong> </label>
-                <div class="col-sm-19 col-md-20">
-                    <select class="form-control " style="height: 200px;" cols="75" name="part[]" multiple="multiple" id="part">
-                        <!-- BEGIN: parent_loop -->
-                        <option value="{pid}"{pselect}>{ptitle}</option>
-                        <!-- END: parent_loop -->
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.image}</strong></label>
                 <div class="col-sm-19 col-md-20">
                     <div class="input-group">
@@ -129,6 +103,43 @@
                                 <em class="fa fa-folder-open-o fa-fix">&nbsp;</em>
                             </button>
                         </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">{LANG.account}</div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.user_account}</strong> <span class="red">(*)</span></label>
+                <div class="col-sm-19 col-md-20">
+                    <select name="userid" id="userid" class="form-control">
+                        <!-- BEGIN: user_info -->
+                        <option value="{USER_INFO.userid}" selected="selected">{USER_INFO.fullname}</option>
+                        <!-- END: user_info -->
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div id="createaccount">
+                    <label class="col-md-4 ">{LANG.createinfoaccount}<span class="red">(*)</span></label>
+                    <input class="col-md-4 " type="checkbox" id="checkboxaccount" name="checkboxaccount" value="0">
+                </div>
+            </div>
+            <div class="form-group" id="infoaccount">
+                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.infoaccount}</strong><span class="red">(*)</span></label>
+                <div class="col-sm-19 col-md-20">
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <input class="form-control" type="text" name="username" value="{ROW.username}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" placeholder="{LANG.username}" />
+                        </div>
+                        <div class="col-xs-8">
+                            <input class="form-control" type="password" name="password" value="{ROW.password}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" placeholder="{LANG.password}" />
+                        </div>
+                        <div class="col-xs-8">
+                            <input class="form-control" type="password" name="looppassword" value="{ROW.looppassword}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" placeholder="{LANG.looppassword}" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -195,6 +206,12 @@
         // omitted for brevity, see the source of this page
         });
         
+        $(document).ready(function() {
+            $("#createaccount").click(function() {
+                $("#infoaccount").toggle();
+            });
+        });
+        
         $(".datepicker").datepicker({
             dateFormat : "dd/mm/yy",
             changeMonth : true,
@@ -226,6 +243,7 @@
         $('#username').val(repo.username);
         return repo.username || repo.text;
     }
+
     //]]>
 </script>
 <!-- END: main -->

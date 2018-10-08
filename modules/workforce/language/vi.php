@@ -86,6 +86,18 @@ $lang_module['select_part'] = 'Chọn bộ phận';
 $lang_module['select_status'] = 'Chọn trạng thái';
 $lang_module['workforce_content'] = 'Danh sách nhận sự đang trống. Click vào <a href="%s" title=""><strong>đây</strong></a> để thêm mới nhân sự.';
 
+$lang_module['createinfoaccount'] = 'Tạo tài khoản nếu chưa có';
+$lang_module['infoaccount'] = 'Thông tin tài khoản';
+$lang_module['username'] = 'Tài khoản';
+$lang_module['password'] = 'Mật khẩu';
+$lang_module['looppassword'] = 'Lặp lại mật khẩu';
+$lang_module['admin_add'] = 'Thêm thành công';
+$lang_module['edit_error_username_exist'] = 'Lỗi: User đã tồn tại';
+$lang_module['edit_error_email_exist'] = 'Lỗi: Email đã tồn tại';
+$lang_module['edit_error_group_default'] = 'Lỗi: group đã tồn tại';
+$lang_module['edit_add_error'] = 'Lỗi: thêm tài khoản không thành công';
+
+
 $lang_module['error_required_userid'] = 'Lỗi: bạn cần chọn Tài khoản thành viên';
 $lang_module['error_required_first_name'] = 'Lỗi: bạn cần nhập dữ liệu cho Tên';
 $lang_module['error_required_last_name'] = 'Lỗi: bạn cần nhập dữ liệu cho Họ và tên đệm';

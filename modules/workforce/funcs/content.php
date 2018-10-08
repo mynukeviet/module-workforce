@@ -53,14 +53,23 @@ if ($row['id'] > 0) {
     $row['part'] = $row['part_old'] = array();
     $row['salary'] = 0;
     $row['allowance'] = 0;
+
+    $row['username'] = '';
+    $row['password'] = '';
+    $row['looppassword'] = '';
 }
 
 $row['redirect'] = $nv_Request->get_string('redirect', 'get,post', '');
 
 if ($nv_Request->isset_request('submit', 'post')) {
-    $row['first_name'] = $nv_Request->get_title('first_name', 'post', '');
-    $row['last_name'] = $nv_Request->get_title('last_name', 'post', '');
-    $row['gender'] = $nv_Request->get_int('gender', 'post', 0);
+
+    $username = $row['username'] = $nv_Request->get_title('username', 'post', '');
+    $row['password'] = $nv_Request->get_title('password', 'post', '', 0);
+    $row['looppassword'] = $nv_Request->get_title('looppassword', 'post', '', 0);
+
+    $firstname = $row['first_name'] = $nv_Request->get_title('first_name', 'post', '');
+    $lastname = $row['last_name'] = $nv_Request->get_title('last_name', 'post', '');
+    $gender = $row['gender'] = $nv_Request->get_int('gender', 'post', 0);
     $row['salary'] = $nv_Request->get_string('salary', 'post', 0);
     $row['salary'] = preg_replace('/[^0-9]/', '', $row['salary']);
     $row['allowance'] = $nv_Request->get_string('allowance', 'post', 0);
@@ -84,7 +93,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
 
     $row['main_phone'] = $nv_Request->get_title('main_phone', 'post', '');
     $row['other_phone'] = $nv_Request->get_title('other_phone', 'post', '');
-    $row['main_email'] = $nv_Request->get_title('main_email', 'post', '');
+    $email = $row['main_email'] = $nv_Request->get_title('main_email', 'post', '');
     $row['other_email'] = $nv_Request->get_title('other_email', 'post', '');
     $row['address'] = $nv_Request->get_title('address', 'post', '');
     $row['position'] = $nv_Request->get_title('position', 'post', '');
@@ -99,9 +108,11 @@ if ($nv_Request->isset_request('submit', 'post')) {
         $row['image'] = '';
     }
 
+    $ingroups = $db->query("SELECT config_value FROM " . NV_CONFIG_GLOBALTABLE . " WHERE module='workforce' AND config_name='groups_use'")->fetch();
+
     $part = !empty($row['part']) ? implode(',', $row['part']) : '';
 
-    if (empty($row['userid'])) {
+    if (empty($row['userid']) && empty($row['username'])) {
         $error[] = $lang_module['error_required_userid'];
     } elseif (empty($row['first_name'])) {
         $error[] = $lang_module['error_required_first_name'];
@@ -113,13 +124,20 @@ if ($nv_Request->isset_request('submit', 'post')) {
         $error[] = $lang_module['error_required_main_phone'];
     } elseif (empty($row['main_email'])) {
         $error[] = $lang_module['error_required_main_email'];
-    } elseif (empty($row['position'])) {
-        $error[] = $lang_module['error_required_position'];
+    } elseif (empty($row['password'])) {
+        $error[] = $lang_module['error_required_password'];
+    } elseif (empty($row['looppassword'])) {
+        $error[] = $lang_module['error_required_looppassword'];
+    } elseif ($row['password'] != $row['looppassword']) {
+        $error[] = $lang_module['error_required_pass'];
     }
 
     if (empty($error)) {
         try {
             if (empty($row['id'])) {
+                $ingroups = implode(",", $ingroups);
+
+                nv_createaccount($username, $row['password'], $email, $ingroups, $firstname, $lastname, $gender);
 
                 $_sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . ' (userid, first_name, last_name, gender, birthday, main_phone, other_phone, main_email, other_email, address, knowledge, image, jointime, position, part, salary, allowance, addtime, edittime, useradd) VALUES (:userid, :first_name, :last_name, :gender, :birthday, :main_phone, :other_phone, :main_email, :other_email, :address, :knowledge, :image, :jointime, :position, :part, :salary, :allowance, ' . NV_CURRENTTIME . ', ' . NV_CURRENTTIME . ', ' . $user_info['userid'] . ')';
                 $data_insert = array();
