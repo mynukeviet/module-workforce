@@ -99,6 +99,7 @@ function nv_caculate_percent($a, $b)
 {
     return ($a * 100) / $b;
 }
+
 function nv_createaccount($username, $password, $email, $ingroups, $firstname, $lastname, $gender)
 {
     global $db, $global_config, $crypt, $user_info, $lang_module;
@@ -115,45 +116,56 @@ function nv_createaccount($username, $password, $email, $ingroups, $firstname, $
     $query_error_username = $stmt->fetchColumn();
     if ($query_error_username) {
         nv_jsonOutput(array(
-            'status' => 'error',
-            'input' => 'username',
-            'mess' => $lang_module['edit_error_username_exist']
+            'error' => 1,
+            'msg' => $lang_module['edit_error_username_exist'],
+            'input' => 'username'
         ));
     }
 
     // Thực hiện câu truy vấn để kiểm tra email đã tồn tại chưa.
     $stmt = $db->prepare('SELECT userid FROM ' . NV_USERS_GLOBALTABLE . ' WHERE email= :email');
-    $stmt->bindParam(':email', $row['main_email'], PDO::PARAM_STR);
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmt->execute();
     $query_error_email = $stmt->fetchColumn();
     if ($query_error_email) {
         nv_jsonOutput(array(
-            'status' => 'error',
-            'input' => 'main_email',
-            'mess' => $lang_module['edit_error_email_exist']
+            'error' => 1,
+            'msg' => $lang_module['edit_error_email_exist'],
+            'input' => 'main_email'
         ));
     }
 
-    // Thực hiện câu truy vấn để kiểm tra email đã tồn tại trong nv4_users_reg  chưa.
+    // Thực hiện câu truy vấn để kiểm tra email đã tồn tại trong nv4_users_reg chưa.
     $stmt = $db->prepare('SELECT userid FROM ' . NV_USERS_GLOBALTABLE . '_reg WHERE email= :email');
-    $stmt->bindParam(':email', $row['main_email'], PDO::PARAM_STR);
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmt->execute();
     $query_error_email_reg = $stmt->fetchColumn();
     if ($query_error_email_reg) {
-        $error[] = $lang_module['edit_error_email_exist'];
+        nv_jsonOutput(array(
+            'error' => 1,
+            'msg' => $lang_module['edit_error_email_exist'],
+            'input' => 'main_email'
+        ));
     }
 
     // Thực hiện câu truy vấn để kiểm tra email đã tồn tại trong nv3_users_openid chưa.
     $stmt = $db->prepare('SELECT userid FROM ' . NV_USERS_GLOBALTABLE . '_openid WHERE email= :email');
-    $stmt->bindParam(':email', $row['main_email'], PDO::PARAM_STR);
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
     $stmt->execute();
     $query_error_email_openid = $stmt->fetchColumn();
     if ($query_error_email_openid) {
-        $error[] = $lang_module['edit_error_email_exist'];
+        nv_jsonOutput(array(
+            'error' => 1,
+            'msg' => $lang_module['edit_error_email_exist'],
+            'input' => 'main_email'
+        ));
     }
 
     if (empty($ingroups)) {
-        $error[] = $lang_module['edit_error_group_default'];
+        nv_jsonOutput(array(
+            'error' => 1,
+            'msg' => $lang_module['edit_error_group_default']
+        ));
     }
 
     $in_groups_default = 4;
@@ -174,28 +186,31 @@ function nv_createaccount($username, $password, $email, $ingroups, $firstname, $
         " . NV_CURRENTTIME . ",
         '', 0 , 1 , '" . implode(',', $ingroups) . "' , 1 , '' , 0 , '' , '' , '' , " . $global_config['idsite'] . ", 0
     )";
-        $data_insert = array();
-        $data_insert['username'] = $username;
-        $data_insert['md5_username'] = $md5username;
-        $data_insert['password'] = $crypt->hash_password($password, $global_config['hashprefix']);
-        $data_insert['email'] = $email;
-        $data_insert['first_name'] = $firstname;
-        $data_insert['last_name'] = $lastname;
-        $data_insert['gender'] = $gender;
+    $data_insert = array();
+    $data_insert['username'] = $username;
+    $data_insert['md5_username'] = $md5username;
+    $data_insert['password'] = $crypt->hash_password($password, $global_config['hashprefix']);
+    $data_insert['email'] = $email;
+    $data_insert['first_name'] = $firstname;
+    $data_insert['last_name'] = $lastname;
+    $data_insert['gender'] = $gender;
 
-        $userid = $db->insert_id($sql, 'userid', $data_insert);
+    $userid = $db->insert_id($sql, 'userid', $data_insert);
 
-        if (!$userid) {
-            $error[] = $lang_module['edit_add_error'];
-        }
+    if (!$userid) {
+        nv_jsonOutput(array(
+            'error' => 1,
+            'msg' => $lang_module['edit_add_error']
+        ));
+    }
 
-        nv_insert_logs(NV_LANG_DATA, $module_name, 'log_add_user', 'userid ' . $userid, $user_info['userid']);
+    nv_insert_logs(NV_LANG_DATA, $module_name, 'log_add_user', 'userid ' . $userid, $user_info['userid']);
 
-        if (!empty($ingroups)) {
-            foreach ($ingroups as $group_id) {
-                if ($group_id != 7) {
-                    nv_groups_add_user($group_id, $userid, 1, $module_data);
-                }
+    if (!empty($ingroups)) {
+        foreach ($ingroups as $group_id) {
+            if ($group_id != 7) {
+                nv_groups_add_user($group_id, $userid, 1, $module_data);
             }
         }
+    }
 }

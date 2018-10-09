@@ -34,6 +34,24 @@ function nv_list_action(action, url_action, del_confirm_no_post) {
     return false;
 }
 
+$('#form-workforce').submit(function(e) {
+    e.preventDefault();
+    $.ajax({
+        url : script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=content&nocache=' + new Date().getTime(),
+        type : 'post',
+        data : $(this).serialize(),
+        success : function(json) {
+            if (json.error) {
+                alert(json.msg);
+            } else {
+                alert('Thêm dữ liệu thành công !');
+            }
+            window.location.href = url;
+        }
+    
+    });
+});
+
 function nv_table_row_click(e, t, n) {
     var r = e.target.tagName.toLowerCase(), i = e.target.parentNode.tagName.toLowerCase(), a = e.target.parentNode.parentNode.parentNode;
     return void ("button" != r && "a" != r && "button" != i && "a" != i && "td" != i && (n ? window.open(t) : window.location.href = t))

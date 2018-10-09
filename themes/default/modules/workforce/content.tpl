@@ -5,7 +5,7 @@
 <!-- BEGIN: error -->
 <div class="alert alert-warning">{ERROR}</div>
 <!-- END: error -->
-<form class="form-horizontal" action="{NV_BASE_SITEURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" method="post">
+<form id="form-workforce" class="form-horizontal" action="{NV_BASE_SITEURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" method="post">
     <div class="panel panel-default">
         <div class="panel-body">
             <input type="hidden" name="id" value="{ROW.id}" />
@@ -163,7 +163,8 @@
         </div>
     </div>
     <div class="form-group text-center button_fixed_bottom">
-        <input class="btn btn-primary" name="submit" type="submit" value="{LANG.save}" />
+        <input type="hidden" name="submit" value="1" />
+        <input class="btn btn-primary" type="submit" value="{LANG.save}" />
     </div>
 </form>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.js"></script>
