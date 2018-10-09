@@ -48,8 +48,7 @@
                 <th>{LANG.edittime}</th>
                 <td>{WORKFORCE.edittime}</td>
                 <th>{LANG.status}</th>
-                <td>
-                    <select class="form-control" style="width: 200px" id="change_status_{WORKFORCE.id}" onchange="nv_chang_status('{WORKFORCE.id}');">
+                <td><select class="form-control" style="width: 200px" id="change_status_{WORKFORCE.id}" onchange="nv_chang_status('{WORKFORCE.id}');">
                         <!-- BEGIN: status -->
                         <option value="{STATUS.data}"{STATUS.selected}>{STATUS.value}</option>
                         <!-- END: status -->

@@ -162,9 +162,11 @@
             </div>
         </div>
     </div>
+
     <div class="form-group text-center button_fixed_bottom">
         <input type="hidden" name="submit" value="1" />
         <input class="btn btn-primary" type="submit" value="{LANG.save}" />
+
     </div>
 </form>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.js"></script>
