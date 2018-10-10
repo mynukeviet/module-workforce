@@ -49,8 +49,9 @@ $('#form-workforce').submit(function(e) {
                 alert(json.msg);
             } else {
                 alert('Thêm dữ liệu thành công !');
+                window.location.href = window.location.href;
             }
-            window.location.href = url;
+           
         }
     
     });

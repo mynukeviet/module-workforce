@@ -112,6 +112,15 @@
         <div class="panel-heading">{LANG.account}</div>
         <div class="panel-body">
             <div class="form-group">
+                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.type_account}</strong><span class="red">(*)</span></label>
+                <div class="col-sm-19 col-md-20">
+                    <input class="col-sm-19 col-md-20" type="radio" name="portion_selection" id="button_one" value="button_one" checked="checked"/>
+                    <label class="col-sm-19 col-md-4"><strong>{LANG.haveaccount}</strong></label>                 
+                    <input class="col-sm-19 col-md-20" type="radio" name="portion_selection"  value="infoaccount" />
+                    <label class="col-sm-19 col-md-4"><strong>{LANG.createaccount}</strong></label>
+                </div>
+            </div>
+            <div class="form-group" id="portion_one">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.user_account}</strong> <span class="red">(*)</span></label>
                 <div class="col-sm-19 col-md-20">
                     <select name="userid" id="userid" class="form-control">
@@ -121,13 +130,7 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">
-                <div id="createaccount">
-                    <label class="col-md-4 ">{LANG.createinfoaccount}<span class="red">(*)</span></label>
-                    <input class="col-md-4 " type="checkbox" id="checkboxaccount" name="checkboxaccount" value="0">
-                </div>
-            </div>
-            <div class="form-group" id="infoaccount">
+            <div class="form-group" id="infoaccount" style="display: none">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.infoaccount}</strong><span class="red">(*)</span></label>
                 <div class="col-sm-19 col-md-20">
                     <div class="row">
@@ -162,11 +165,9 @@
             </div>
         </div>
     </div>
-
     <div class="form-group text-center button_fixed_bottom">
         <input type="hidden" name="submit" value="1" />
         <input class="btn btn-primary" type="submit" value="{LANG.save}" />
-
     </div>
 </form>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.js"></script>
@@ -248,5 +249,13 @@
     }
 
     //]]>
+</script>
+<script type="text/javascript">
+	$("button_one[value='1']:checked").val();
+    $("input[name='portion_selection']:radio").change(function() {
+        $("#portion_one").toggle($(this).val() == "button_one");
+        
+        $("#infoaccount").toggle($(this).val() == "infoaccount");
+    });
 </script>
 <!-- END: main -->

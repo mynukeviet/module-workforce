@@ -168,7 +168,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
         ));
     }
 
-    nv_createaccount($username, $row['password'], $email, $ingroups, $firstname, $lastname, $gender);
+    $userid = nv_createaccount($username, $row['password'], $email, $ingroups, $firstname, $lastname, $gender);
 
     if (empty($error)) {
         try {
@@ -176,7 +176,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
                 $ingroups = implode(",", $ingroups);
                 $_sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . ' (userid, first_name, last_name, gender, birthday, main_phone, other_phone, main_email, other_email, address, knowledge, image, jointime, position, part, salary, allowance, addtime, edittime, useradd) VALUES (:userid, :first_name, :last_name, :gender, :birthday, :main_phone, :other_phone, :main_email, :other_email, :address, :knowledge, :image, :jointime, :position, :part, :salary, :allowance, ' . NV_CURRENTTIME . ', ' . NV_CURRENTTIME . ', ' . $user_info['userid'] . ')';
                 $data_insert = array();
-                $data_insert['userid'] = $row['userid'];
+                $data_insert['userid'] = $userid;
                 $data_insert['first_name'] = $row['first_name'];
                 $data_insert['last_name'] = $row['last_name'];
                 $data_insert['gender'] = $row['gender'];
@@ -195,7 +195,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
                 $data_insert['allowance'] = $row['allowance'];
                 $new_id = $db->insert_id($_sql, 'id', $data_insert);
             } else {
-                $stmt = $db->prepare('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . ' SET userid = :userid, first_name = :first_name, last_name = :last_name, gender = :gender, birthday = :birthday, main_phone = :main_phone, other_phone = :other_phone, main_email = :main_email, other_email = :other_email, address = :address, knowledge = :knowledge, image = :image, jointime = :jointime, position = :position, part = :part, salary = :salary, allowance = :allowance, edittime = ' . NV_CURRENTTIME . ' WHERE id=' . $row['id']);
+                $stmt = $db->prepare('UPDATE ' . NV_PREFIXLANG . '_' . $module_data . ' SET userid = :userid, first_name = :first_name, last_name = :last_name, gender = :gender, birthday = :birthday, main_phone = :main_phone, other_phone = :other_phone, main_email = :main_email, other_email = :other_email, address = :address, knowledge = :knowledge, image = :image, jointime = :jointime, position = :position, part = :part, salary = :salary, allowance = :allowance, edittime = ' . NV_CURRENTTIME . ' WHERE id=' . $userid);
                 $stmt->bindParam(':userid', $row['userid'], PDO::PARAM_INT);
                 $stmt->bindParam(':first_name', $row['first_name'], PDO::PARAM_STR);
                 $stmt->bindParam(':last_name', $row['last_name'], PDO::PARAM_STR);
