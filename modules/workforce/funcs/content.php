@@ -8,7 +8,7 @@
  * @Createdate Sun, 07 Jan 2018 03:36:43 GMT
  */
 if (!defined('NV_IS_MOD_WORKFORCE')) die('Stop!!!');
-
+$error = array();
 $array_part = $db->query('SELECT id FROM ' . NV_PREFIXLANG . '_' . $module_data . '_part')->fetch();
 if (empty($array_part)) {
     $url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=part';
@@ -58,9 +58,7 @@ if ($row['id'] > 0) {
     $row['password'] = '';
     $row['looppassword'] = '';
 }
-
-$row['redirect'] = $nv_Request->get_string('redirect', 'get,post', '');
-
+$row['redirect'] = $nv_Request->get_string('redirect', 'post,get', '');
 if ($nv_Request->isset_request('submit', 'post')) {
 
     $username = $row['username'] = $nv_Request->get_title('username', 'post', '');
@@ -113,35 +111,70 @@ if ($nv_Request->isset_request('submit', 'post')) {
     $part = !empty($row['part']) ? implode(',', $row['part']) : '';
 
     if (empty($row['userid']) && empty($row['username'])) {
-        $error[] = $lang_module['error_required_userid'];
+        nv_jsonOutput(array(
+            'error' => 1,
+            'msg' => $lang_module['error_required_userid'],
+            'input' => 'userid'
+        ));
     } elseif (empty($row['first_name'])) {
-        $error[] = $lang_module['error_required_first_name'];
+        nv_jsonOutput(array(
+            'error' => 1,
+            'msg' => $lang_module['error_required_first_name'],
+            'input' => 'first_name'
+        ));
     } elseif (empty($row['last_name'])) {
-        $error[] = $lang_module['error_required_last_name'];
+        nv_jsonOutput(array(
+            'error' => 1,
+            'msg' => $lang_module['error_required_last_name'],
+            'input' => 'last_name'
+        ));
     } elseif (empty($row['birthday'])) {
-        $error[] = $lang_module['error_required_birthday'];
+        nv_jsonOutput(array(
+            'error' => 1,
+            'msg' => $lang_module['error_required_birthday'],
+            'input' => 'birthday'
+        ));
     } elseif (empty($row['main_phone'])) {
-        $error[] = $lang_module['error_required_main_phone'];
+        nv_jsonOutput(array(
+            'error' => 1,
+            'msg' => $lang_module['error_required_main_phone'],
+            'input' => 'main_phone'
+        ));
     } elseif (empty($row['main_email'])) {
-        $error[] = $lang_module['error_required_main_email'];
+        nv_jsonOutput(array(
+            'error' => 1,
+            'msg' => $lang_module['error_required_main_email'],
+            'input' => 'main_email'
+        ));
     } elseif (empty($row['password'])) {
-        $error[] = $lang_module['error_required_password'];
+        nv_jsonOutput(array(
+            'error' => 1,
+            'msg' => $lang_module['error_required_password'],
+            'input' => 'password'
+        ));
     } elseif (empty($row['looppassword'])) {
-        $error[] = $lang_module['error_required_looppassword'];
+        nv_jsonOutput(array(
+            'error' => 1,
+            'msg' => $lang_module['error_required_looppassword'],
+            'input' => 'looppassword'
+        ));
     } elseif ($row['password'] != $row['looppassword']) {
-        $error[] = $lang_module['error_required_pass'];
+        nv_jsonOutput(array(
+            'error' => 1,
+            'msg' => $lang_module['error_required_pass'],
+            'input' => 'looppassword'
+        ));
     }
+
+    $userid = nv_createaccount($username, $row['password'], $email, $ingroups, $firstname, $lastname, $gender);
 
     if (empty($error)) {
         try {
             if (empty($row['id'])) {
                 $ingroups = implode(",", $ingroups);
-
-                nv_createaccount($username, $row['password'], $email, $ingroups, $firstname, $lastname, $gender);
-
                 $_sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . ' (userid, first_name, last_name, gender, birthday, main_phone, other_phone, main_email, other_email, address, knowledge, image, jointime, position, part, salary, allowance, addtime, edittime, useradd) VALUES (:userid, :first_name, :last_name, :gender, :birthday, :main_phone, :other_phone, :main_email, :other_email, :address, :knowledge, :image, :jointime, :position, :part, :salary, :allowance, ' . NV_CURRENTTIME . ', ' . NV_CURRENTTIME . ', ' . $user_info['userid'] . ')';
                 $data_insert = array();
-                $data_insert['userid'] = $row['userid'];
+                $data_insert['userid'] = $userid;
                 $data_insert['first_name'] = $row['first_name'];
                 $data_insert['last_name'] = $row['last_name'];
                 $data_insert['gender'] = $row['gender'];
@@ -194,31 +227,36 @@ if ($nv_Request->isset_request('submit', 'post')) {
                             $sth->execute();
                         }
                     }
-
                     foreach ($row['part_old'] as $partid) {
                         if (!in_array($partid, $row['part'])) {
                             $db->query('DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail WHERE userid = ' . $row['userid'] . ' AND part=' . $partid);
                         }
                     }
                 }
-                if (empty($row['id'])) {
-                    nv_insert_logs(NV_LANG_DATA, $module_name, $lang_module['title_workforce'], $workforce_list[$user_info['userid']]['fullname'] . " " . $lang_module['content_workforce'] . " " . $row['last_name'] . " " . $row['first_name'], $workforce_list[$user_info['userid']]['fullname']);
-                } else {
-                    nv_insert_logs(NV_LANG_DATA, $module_name, $lang_module['title_workforce'], $workforce_list[$user_info['userid']]['fullname'] . " " . $lang_module['edit_workforce'] . " " . $row['last_name'] . " " . $row['first_name'], $workforce_list[$user_info['userid']]['fullname']);
-                }
 
                 $nv_Cache->delMod($module_name);
+            }
+            if (!empty($row['redirect'])) {
+                $url = nv_redirect_decrypt($row['redirect']);
+            }
+            nv_jsonOutput(array(
+                'error' => 0,
+                'redirect' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=detail&id=' . $new_id,
+                'ajax' => $row['ajax'],
+                'useridlink' => $row['{ROW.useridlink}']
+            ));
 
-                if (!empty($row['redirect'])) {
-
-                    $url = nv_redirect_decrypt($row['redirect']);
-                } else {
-                    $url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name;
-                }
-                Header('Location: ' . $url);
+            if (empty($row['id'])) {
+                nv_insert_logs(NV_LANG_DATA, $module_name, $lang_module['title_workforce'], $workforce_list[$user_info['userid']]['fullname'] . " " . $lang_module['content_workforce'] . " " . $row['last_name'] . " " . $row['first_name'], $workforce_list[$user_info['userid']]['fullname']);
+            } else {
+                nv_insert_logs(NV_LANG_DATA, $module_name, $lang_module['title_workforce'], $workforce_list[$user_info['userid']]['fullname'] . " " . $lang_module['edit_workforce'] . " " . $row['last_name'] . " " . $row['first_name'], $workforce_list[$user_info['userid']]['fullname']);
             }
         } catch (PDOException $e) {
             trigger_error($e->getMessage());
+            nv_jsonOutput(array(
+                'error' => 1,
+                'msg' => $lang_module['error_unknow']
+            ));
         }
     }
 }
