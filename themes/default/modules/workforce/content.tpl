@@ -114,9 +114,9 @@
             <div class="form-group">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.type_account}</strong><span class="red">(*)</span></label>
                 <div class="col-sm-19 col-md-20">
-                    <input class="col-sm-19 col-md-20" type="radio" name="portion_selection" id="button_one" value="button_one" checked="checked"/>
-                    <label class="col-sm-19 col-md-4"><strong>{LANG.haveaccount}</strong></label>                 
-                    <input class="col-sm-19 col-md-20" type="radio" name="portion_selection"  value="infoaccount" />
+                    <input class="col-sm-19 col-md-20" type="radio" name="portion_selection" id="button_one" value="button_one" checked="checked" />
+                    <label class="col-sm-19 col-md-4"><strong>{LANG.haveaccount}</strong></label>
+                    <input class="col-sm-19 col-md-20" type="radio" name="portion_selection" value="infoaccount" />
                     <label class="col-sm-19 col-md-4"><strong>{LANG.createaccount}</strong></label>
                 </div>
             </div>
@@ -167,7 +167,9 @@
     </div>
     <div class="form-group text-center button_fixed_bottom">
         <input type="hidden" name="submit" value="1" />
-        <input class="btn btn-primary" type="submit" value="{LANG.save}" />
+        <input type="hidden" name="ajax" value="{ROW.ajax}" />
+        <input type="hidden" name="useridlink" value="{ROW.useridlink}" />
+        <input class="btn btn-primary" type="submit" id="btn-submit" value="{LANG.save}" />
     </div>
 </form>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.js"></script>
@@ -210,12 +212,6 @@
         // omitted for brevity, see the source of this page
         });
         
-        $(document).ready(function() {
-            $("#createaccount").click(function() {
-                $("#infoaccount").toggle();
-            });
-        });
-        
         $(".datepicker").datepicker({
             dateFormat : "dd/mm/yy",
             changeMonth : true,
@@ -248,10 +244,34 @@
         return repo.username || repo.text;
     }
 
+    $('#form-workforce').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type : 'POST',
+            url : script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=content&nocache=' + new Date().getTime(),
+            data : $(this).serialize(),
+            beforeSend : function() {
+                $('#btn-submit').prop('disabled', true);
+            },
+            success : function(json) {
+                if (json.msg) {
+                    alert(json.msg);
+                }
+                if (json.error) {
+                    $('#' + json.input).focus();
+                    $('#btn-submit').prop('disabled', false);
+                    
+                } else {
+                    window.location.href = json.redirect;
+                }
+            }
+        });
+    })
+
     //]]>
 </script>
 <script type="text/javascript">
-	$("button_one[value='1']:checked").val();
+    $("button_one[value='1']:checked").val();
     $("input[name='portion_selection']:radio").change(function() {
         $("#portion_one").toggle($(this).val() == "button_one");
         

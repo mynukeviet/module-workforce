@@ -89,7 +89,7 @@ $lang_module['workforce_content'] = 'Danh sách nhận sự đang trống. Click
 
 $lang_module['createinfoaccount'] = 'Tạo tài khoản nếu chưa có';
 $lang_module['infoaccount'] = 'Thông tin tài khoản';
-$lang_module['username'] = 'Tài khoản';
+$lang_module['username'] = 'Tên truy cập';
 $lang_module['password'] = 'Mật khẩu';
 $lang_module['looppassword'] = 'Lặp lại mật khẩu';
 $lang_module['haveaccount'] = 'Đã có tài khoản';
@@ -103,7 +103,6 @@ $lang_module['edit_null_username_exist'] = 'Lỗi: bạn cần nhập dữ liệ
 $lang_module['edit_error_email_exist'] = 'Lỗi: Email đã tồn tại';
 $lang_module['edit_error_group_default'] = 'Lỗi: group đã tồn tại';
 $lang_module['edit_add_error'] = 'Lỗi: thêm tài khoản không thành công';
-
 
 $lang_module['error_required_userid'] = 'Lỗi: bạn cần chọn Tài khoản thành viên';
 $lang_module['error_required_first_name'] = 'Lỗi: bạn cần nhập dữ liệu cho Tên';

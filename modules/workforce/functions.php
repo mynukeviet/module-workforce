@@ -161,7 +161,7 @@ function nv_createaccount($username, $password, $email, $ingroups, $firstname, $
         ));
     }
 
-    if (!empty($ingroups)) {
+    if (empty($ingroups)) {
         nv_jsonOutput(array(
             'error' => 1,
             'msg' => $lang_module['edit_error_group_default']
@@ -197,7 +197,7 @@ function nv_createaccount($username, $password, $email, $ingroups, $firstname, $
 
     $userid = $db->insert_id($sql, 'userid', $data_insert);
 
-    if ($userid) {
+    if (!$userid) {
         nv_jsonOutput(array(
             'error' => 1,
             'msg' => $lang_module['edit_add_error']
