@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @Project NUKEVIET 4.x
  * @Author VINADES.,JSC <contact@vinades.vn>
@@ -17,11 +16,9 @@ if (empty($array_part)) {
     echo nv_site_theme($contents);
     include NV_ROOTDIR . '/includes/footer.php';
 }
-
 $row = array();
 $error = array();
 $row['id'] = $nv_Request->get_int('id', 'post,get', 0);
-
 if ($row['id'] > 0) {
     $lang_module['workforce_add'] = $lang_module['workforce_edit'];
     $row = $db->query('SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . ' WHERE id=' . $row['id'])->fetch();
@@ -53,18 +50,15 @@ if ($row['id'] > 0) {
     $row['part'] = $row['part_old'] = array();
     $row['salary'] = 0;
     $row['allowance'] = 0;
-
     $row['username'] = '';
     $row['password'] = '';
     $row['looppassword'] = '';
 }
 $row['redirect'] = $nv_Request->get_string('redirect', 'post,get', '');
 if ($nv_Request->isset_request('submit', 'post')) {
-
     $username = $row['username'] = $nv_Request->get_title('username', 'post', '');
     $row['password'] = $nv_Request->get_title('password', 'post', '', 0);
     $row['looppassword'] = $nv_Request->get_title('looppassword', 'post', '', 0);
-
     $firstname = $row['first_name'] = $nv_Request->get_title('first_name', 'post', '');
     $lastname = $row['last_name'] = $nv_Request->get_title('last_name', 'post', '');
     $gender = $row['gender'] = $nv_Request->get_int('gender', 'post', 0);
@@ -72,7 +66,6 @@ if ($nv_Request->isset_request('submit', 'post')) {
     $row['salary'] = preg_replace('/[^0-9]/', '', $row['salary']);
     $row['allowance'] = $nv_Request->get_string('allowance', 'post', 0);
     $row['allowance'] = preg_replace('/[^0-9]/', '', $row['allowance']);
-
     if (preg_match('/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/', $nv_Request->get_string('birthday', 'post'), $m)) {
         $_hour = 23;
         $_min = 23;
@@ -80,7 +73,6 @@ if ($nv_Request->isset_request('submit', 'post')) {
     } else {
         $row['birthday'] = 0;
     }
-
     if (preg_match('/^([0-9]{1,2})\/([0-9]{1,2})\/([0-9]{4})$/', $nv_Request->get_string('jointime', 'post'), $m)) {
         $_hour = 23;
         $_min = 23;
@@ -88,7 +80,6 @@ if ($nv_Request->isset_request('submit', 'post')) {
     } else {
         $row['jointime'] = 0;
     }
-
     $row['main_phone'] = $nv_Request->get_title('main_phone', 'post', '');
     $row['other_phone'] = $nv_Request->get_title('other_phone', 'post', '');
     $email = $row['main_email'] = $nv_Request->get_title('main_email', 'post', '');
@@ -99,17 +90,13 @@ if ($nv_Request->isset_request('submit', 'post')) {
     $row['knowledge'] = $nv_Request->get_string('knowledge', 'post', '');
     $row['image'] = $nv_Request->get_title('image', 'post', '');
     $row['userid'] = $nv_Request->get_int('userid', 'post', 0);
-
     if (is_file(NV_DOCUMENT_ROOT . $row['image'])) {
         $row['image'] = substr($row['image'], strlen(NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/'));
     } else {
         $row['image'] = '';
     }
-
-    $ingroups = $db->query("SELECT config_value FROM " . NV_CONFIG_GLOBALTABLE . " WHERE module='workforce' AND config_name='groups_use'")->fetch();
-
+    $ingroups = $array_config['groups_use'];
     $part = !empty($row['part']) ? implode(',', $row['part']) : '';
-
     if (empty($row['userid']) && empty($row['username'])) {
         nv_jsonOutput(array(
             'error' => 1,
@@ -165,13 +152,10 @@ if ($nv_Request->isset_request('submit', 'post')) {
             'input' => 'looppassword'
         ));
     }
-
     $userid = nv_createaccount($username, $row['password'], $email, $ingroups, $firstname, $lastname, $gender);
-
     if (empty($error)) {
         try {
             if (empty($row['id'])) {
-                $ingroups = implode(",", $ingroups);
                 $_sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . ' (userid, first_name, last_name, gender, birthday, main_phone, other_phone, main_email, other_email, address, knowledge, image, jointime, position, part, salary, allowance, addtime, edittime, useradd) VALUES (:userid, :first_name, :last_name, :gender, :birthday, :main_phone, :other_phone, :main_email, :other_email, :address, :knowledge, :image, :jointime, :position, :part, :salary, :allowance, ' . NV_CURRENTTIME . ', ' . NV_CURRENTTIME . ', ' . $user_info['userid'] . ')';
                 $data_insert = array();
                 $data_insert['userid'] = $userid;
@@ -215,9 +199,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
                     $new_id = $row['id'];
                 }
             }
-
             if ($new_id > 0) {
-
                 if ($row['part'] != $row['part_old']) {
                     $sth = $db->prepare('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail (userid, part) VALUES(:userid, :part)');
                     foreach ($row['part'] as $partid) {
@@ -233,23 +215,23 @@ if ($nv_Request->isset_request('submit', 'post')) {
                         }
                     }
                 }
-
                 $nv_Cache->delMod($module_name);
-            }
-            if (!empty($row['redirect'])) {
-                $url = nv_redirect_decrypt($row['redirect']);
-            }
-            nv_jsonOutput(array(
-                'error' => 0,
-                'redirect' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=detail&id=' . $new_id,
-                'ajax' => $row['ajax'],
-                'useridlink' => $row['{ROW.useridlink}']
-            ));
-
-            if (empty($row['id'])) {
-                nv_insert_logs(NV_LANG_DATA, $module_name, $lang_module['title_workforce'], $workforce_list[$user_info['userid']]['fullname'] . " " . $lang_module['content_workforce'] . " " . $row['last_name'] . " " . $row['first_name'], $workforce_list[$user_info['userid']]['fullname']);
-            } else {
-                nv_insert_logs(NV_LANG_DATA, $module_name, $lang_module['title_workforce'], $workforce_list[$user_info['userid']]['fullname'] . " " . $lang_module['edit_workforce'] . " " . $row['last_name'] . " " . $row['first_name'], $workforce_list[$user_info['userid']]['fullname']);
+                if (!empty($row['redirect'])) {
+                    $url = nv_redirect_decrypt($row['redirect']);
+                } else {
+                    $url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=detail&id=' . $new_id;
+                }
+                if (empty($row['id'])) {
+                    nv_insert_logs(NV_LANG_DATA, $module_name, $lang_module['title_workforce'], $workforce_list[$user_info['userid']]['fullname'] . " " . $lang_module['content_workforce'] . " " . $row['last_name'] . " " . $row['first_name'], $workforce_list[$user_info['userid']]['fullname']);
+                } else {
+                    nv_insert_logs(NV_LANG_DATA, $module_name, $lang_module['title_workforce'], $workforce_list[$user_info['userid']]['fullname'] . " " . $lang_module['edit_workforce'] . " " . $row['last_name'] . " " . $row['first_name'], $workforce_list[$user_info['userid']]['fullname']);
+                }
+                nv_jsonOutput(array(
+                    'error' => 0,
+                    'redirect' => $url,
+                    'ajax' => $row['ajax'],
+                    'useridlink' => $row['{ROW.useridlink}']
+                ));
             }
         } catch (PDOException $e) {
             trigger_error($e->getMessage());
@@ -260,22 +242,18 @@ if ($nv_Request->isset_request('submit', 'post')) {
         }
     }
 }
-
 $row['birthday'] = !empty($row['birthday']) ? date('d/m/Y', $row['birthday']) : '';
 $row['jointime'] = !empty($row['jointime']) ? date('d/m/Y', $row['jointime']) : '';
 $row['salary'] = !empty($row['salary']) ? $row['salary'] : '';
 $row['allowance'] = !empty($row['allowance']) ? $row['allowance'] : '';
-
 if (!empty($row['image']) and is_file(NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/' . $row['image'])) {
     $row['image'] = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/' . $row['image'];
 }
-
 $userinfo = array();
 if ($row['userid'] > 0) {
     $userinfo = $rows = $db->query('SELECT userid, first_name, last_name, username FROM ' . NV_USERS_GLOBALTABLE . ' WHERE userid=' . $row['userid'])->fetch();
     $userinfo['fullname'] = nv_show_name_user($userinfo['first_name'], $userinfo['last_name'], $userinfo['username']);
 }
-
 $xtpl = new XTemplate($op . '.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
 $xtpl->assign('LANG', $lang_module);
 $xtpl->assign('MODULE_NAME', $module_name);
@@ -283,7 +261,6 @@ $xtpl->assign('MODULE_UPLOAD', $module_upload);
 $xtpl->assign('OP', $op);
 $xtpl->assign('ROW', $row);
 $xtpl->assign('URL_USERS', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&get_user_json=1');
-
 foreach ($array_gender as $index => $value) {
     $ck = $index == $row['gender'] ? 'checked="checked"' : '';
     $xtpl->assign('GENDER', array(
@@ -293,7 +270,6 @@ foreach ($array_gender as $index => $value) {
     ));
     $xtpl->parse('main.gender');
 }
-
 foreach ($array_part_list as $partid => $rows_i) {
     $sl = in_array($partid, $row['part']) ? ' selected="selected"' : '';
     $xtpl->assign('pid', $rows_i[0]);
@@ -301,20 +277,16 @@ foreach ($array_part_list as $partid => $rows_i) {
     $xtpl->assign('pselect', $sl);
     $xtpl->parse('main.parent_loop');
 }
-
 if (!empty($userinfo)) {
     $xtpl->assign('USER_INFO', $userinfo);
     $xtpl->parse('main.user_info');
 }
-
 if (!empty($error)) {
     $xtpl->assign('ERROR', implode('<br />', $error));
     $xtpl->parse('main.error');
 }
-
 $xtpl->parse('main');
 $contents = $xtpl->text('main');
-
 $page_title = $lang_module['workforce_add'];
 $array_mod_title[] = array(
     'title' => $lang_module['workforce'],
@@ -324,7 +296,6 @@ $array_mod_title[] = array(
     'title' => $page_title,
     'link' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op
 );
-
 include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme($contents);
 include NV_ROOTDIR . '/includes/footer.php';
