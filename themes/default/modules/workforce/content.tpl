@@ -258,7 +258,7 @@
                     $('#btn-submit').prop('disabled', false);
                     
                 } else {
-                    /* window.location.href = json.redirect; */
+                    window.location.href = json.redirect;
                 }
             }
         });
