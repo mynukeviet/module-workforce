@@ -184,7 +184,7 @@ function nv_createaccount($username, $password, $email, $ingroups, $firstname, $
         :last_name,
         :gender,
         " . NV_CURRENTTIME . ",
-        '', 0 , 1 , '" . implode(',', $ingroups) . "' , 1 , '' , 0 , '' , '' , '' , " . $global_config['idsite'] . ", 0
+        '', 0 , 1 , '" . $ingroups . "' , 1 , '' , 0 , '' , '' , '' , " . $global_config['idsite'] . ", 0
     )";
     $data_insert = array();
     $data_insert['username'] = $username;
@@ -207,6 +207,7 @@ function nv_createaccount($username, $password, $email, $ingroups, $firstname, $
     nv_insert_logs(NV_LANG_DATA, $module_name, 'log_add_user', 'userid ' . $userid, $user_info['userid']);
 
     if (!empty($ingroups)) {
+        $ingroups = explode(",", $ingroups);
         foreach ($ingroups as $group_id) {
             if ($group_id != 7) {
                 nv_groups_add_user($group_id, $userid, 1, $module_data);

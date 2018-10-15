@@ -42,9 +42,9 @@ $result['jointime'] = !empty($result['jointime']) ? nv_date('d/m/Y', $result['jo
 
 $result['part'] = explode(",", $result['part']);
 $parts = array();
-foreach ($result['part'] as $value) {
-    $parts[$value] = $array_part_list[$value][1];
-}
+// foreach ($result['part'] as $value) {
+//     $parts[$value] = $array_part_list[$value][1];
+// }
 $result['part'] = implode(", ", $parts);
 
 $xtpl = new XTemplate($op . '.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);

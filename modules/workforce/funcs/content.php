@@ -7,6 +7,7 @@
  * @Createdate Sun, 07 Jan 2018 03:36:43 GMT
  */
 if (!defined('NV_IS_MOD_WORKFORCE')) die('Stop!!!');
+
 $error = array();
 $array_part = $db->query('SELECT id FROM ' . NV_PREFIXLANG . '_' . $module_data . '_part')->fetch();
 if (empty($array_part)) {
@@ -90,20 +91,41 @@ if ($nv_Request->isset_request('submit', 'post')) {
     $row['knowledge'] = $nv_Request->get_string('knowledge', 'post', '');
     $row['image'] = $nv_Request->get_title('image', 'post', '');
     $row['userid'] = $nv_Request->get_int('userid', 'post', 0);
+    $row['btn_radio'] = $nv_Request->get_int('portion_selection', 'post', 0);
     if (is_file(NV_DOCUMENT_ROOT . $row['image'])) {
         $row['image'] = substr($row['image'], strlen(NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/'));
     } else {
         $row['image'] = '';
     }
+
     $ingroups = $array_config['groups_use'];
+
     $part = !empty($row['part']) ? implode(',', $row['part']) : '';
-    if (empty($row['userid']) && empty($row['username'])) {
-        nv_jsonOutput(array(
-            'error' => 1,
-            'msg' => $lang_module['error_required_userid'],
-            'input' => 'userid'
-        ));
-    } elseif (empty($row['first_name'])) {
+    if (!empty($row['btn_radio'])) {
+        if (empty($row['userid']) && empty($row['username'])) {
+            nv_jsonOutput(array(
+                'error' => 1,
+                'msg' => $lang_module['error_required_userid'],
+                'input' => 'userid'
+            ));
+        } elseif (empty($row['looppassword'])) {
+            nv_jsonOutput(array(
+                'error' => 1,
+                'msg' => $lang_module['error_required_looppassword'],
+                'input' => 'looppassword'
+            ));
+        } elseif ($row['password'] != $row['looppassword']) {
+            nv_jsonOutput(array(
+                'error' => 1,
+                'msg' => $lang_module['error_required_pass'],
+                'input' => 'looppassword'
+            ));
+        }
+        $userid = nv_createaccount($username, $row['password'], $email, $ingroups, $firstname, $lastname, $gender);
+    } else {
+        $userid = $row['userid'];
+    }
+    if (empty($row['first_name'])) {
         nv_jsonOutput(array(
             'error' => 1,
             'msg' => $lang_module['error_required_first_name'],
@@ -133,27 +155,9 @@ if ($nv_Request->isset_request('submit', 'post')) {
             'msg' => $lang_module['error_required_main_email'],
             'input' => 'main_email'
         ));
-    } elseif (empty($row['password'])) {
-        nv_jsonOutput(array(
-            'error' => 1,
-            'msg' => $lang_module['error_required_password'],
-            'input' => 'password'
-        ));
-    } elseif (empty($row['looppassword'])) {
-        nv_jsonOutput(array(
-            'error' => 1,
-            'msg' => $lang_module['error_required_looppassword'],
-            'input' => 'looppassword'
-        ));
-    } elseif ($row['password'] != $row['looppassword']) {
-        nv_jsonOutput(array(
-            'error' => 1,
-            'msg' => $lang_module['error_required_pass'],
-            'input' => 'looppassword'
-        ));
     }
-    $userid = nv_createaccount($username, $row['password'], $email, $ingroups, $firstname, $lastname, $gender);
     if (empty($error)) {
+
         try {
             if (empty($row['id'])) {
                 $_sql = 'INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . ' (userid, first_name, last_name, gender, birthday, main_phone, other_phone, main_email, other_email, address, knowledge, image, jointime, position, part, salary, allowance, addtime, edittime, useradd) VALUES (:userid, :first_name, :last_name, :gender, :birthday, :main_phone, :other_phone, :main_email, :other_email, :address, :knowledge, :image, :jointime, :position, :part, :salary, :allowance, ' . NV_CURRENTTIME . ', ' . NV_CURRENTTIME . ', ' . $user_info['userid'] . ')';
@@ -200,37 +204,32 @@ if ($nv_Request->isset_request('submit', 'post')) {
                 }
             }
             if ($new_id > 0) {
-                if ($row['part'] != $row['part_old']) {
-                    $sth = $db->prepare('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail (userid, part) VALUES(:userid, :part)');
-                    foreach ($row['part'] as $partid) {
-                        if (!in_array($partid, $row['part_old'])) {
-                            $sth->bindParam(':userid', $row['userid'], PDO::PARAM_INT);
-                            $sth->bindParam(':part', $partid, PDO::PARAM_INT);
-                            $sth->execute();
-                        }
-                    }
-                    foreach ($row['part_old'] as $partid) {
-                        if (!in_array($partid, $row['part'])) {
-                            $db->query('DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail WHERE userid = ' . $row['userid'] . ' AND part=' . $partid);
-                        }
-                    }
-                }
+//                 if ($row['part'] != $row['part_old']) {
+//                     $sth = $db->prepare('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail (userid, part) VALUES(:userid, :part)');
+//                     foreach ($row['part'] as $partid) {
+//                         if (!in_array($partid, $row['part_old'])) {
+//                             $sth->bindParam(':userid', $row['userid'], PDO::PARAM_INT);
+//                             $sth->bindParam(':part', $partid, PDO::PARAM_INT);
+//                             $sth->execute();
+//                         }
+//                     }
+//                     foreach ($row['part_old'] as $partid) {
+//                         if (!in_array($partid, $row['part'])) {
+//                             $db->query('DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail WHERE userid = ' . $row['userid'] . ' AND part=' . $partid);
+//                         }
+//                     }
+//                 }
                 $nv_Cache->delMod($module_name);
                 if (!empty($row['redirect'])) {
                     $url = nv_redirect_decrypt($row['redirect']);
                 } else {
                     $url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=detail&id=' . $new_id;
                 }
-                if (empty($row['id'])) {
-                    nv_insert_logs(NV_LANG_DATA, $module_name, $lang_module['title_workforce'], $workforce_list[$user_info['userid']]['fullname'] . " " . $lang_module['content_workforce'] . " " . $row['last_name'] . " " . $row['first_name'], $workforce_list[$user_info['userid']]['fullname']);
-                } else {
-                    nv_insert_logs(NV_LANG_DATA, $module_name, $lang_module['title_workforce'], $workforce_list[$user_info['userid']]['fullname'] . " " . $lang_module['edit_workforce'] . " " . $row['last_name'] . " " . $row['first_name'], $workforce_list[$user_info['userid']]['fullname']);
-                }
+
                 nv_jsonOutput(array(
                     'error' => 0,
                     'redirect' => $url,
-                    'ajax' => $row['ajax'],
-                    'useridlink' => $row['{ROW.useridlink}']
+
                 ));
             }
         } catch (PDOException $e) {
@@ -242,6 +241,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
         }
     }
 }
+
 $row['birthday'] = !empty($row['birthday']) ? date('d/m/Y', $row['birthday']) : '';
 $row['jointime'] = !empty($row['jointime']) ? date('d/m/Y', $row['jointime']) : '';
 $row['salary'] = !empty($row['salary']) ? $row['salary'] : '';
@@ -270,6 +270,7 @@ foreach ($array_gender as $index => $value) {
     ));
     $xtpl->parse('main.gender');
 }
+
 foreach ($array_part_list as $partid => $rows_i) {
     $sl = in_array($partid, $row['part']) ? ' selected="selected"' : '';
     $xtpl->assign('pid', $rows_i[0]);
