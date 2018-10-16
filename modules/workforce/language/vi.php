@@ -21,6 +21,8 @@ $lang_module['add'] = 'Thêm mới';
 $lang_module['edit'] = 'Sửa';
 $lang_module['save'] = 'Lưu lại';
 $lang_module['delete'] = 'Xóa';
+$lang_module['approval'] = 'Xét duyệt tăng lương';
+$lang_module['hisapproval'] = 'Lịch sử tăng lương';
 $lang_module['number'] = 'STT';
 $lang_module['title'] = 'Tiêu đề';
 $lang_module['active'] = 'Trạng thái';
@@ -104,7 +106,7 @@ $lang_module['edit_error_username_exist'] = 'Lỗi: User đã tồn tại';
 $lang_module['edit_username_exist'] = 'Tài khoản không tồn tại, bạn có thể thêm vào';
 $lang_module['edit_null_username_exist'] = 'Lỗi: bạn cần nhập dữ liệu cho trường tài khoản';
 $lang_module['edit_error_email_exist'] = 'Lỗi: Email đã tồn tại';
-$lang_module['edit_error_group_default'] = 'Lỗi: group đã tồn tại';
+$lang_module['edit_error_group_default'] = 'Lỗi: nhóm group không tồn tại';
 $lang_module['edit_add_error'] = 'Lỗi: thêm tài khoản không thành công';
 
 $lang_module['error_required_userid'] = 'Lỗi: bạn cần chọn Tài khoản thành viên';

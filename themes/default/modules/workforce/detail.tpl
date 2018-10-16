@@ -1,5 +1,8 @@
 <!-- BEGIN: main -->
 <ul class="list-inline pull-right">
+
+    <li><a href="{URL_APPROVAL}" class="btn btn-primary btn-xs"><em class="fa fa-bar-chart">&nbsp;</em>{LANG.approval}</a></li>
+
     <li><a href="{URL_EDIT}" class="btn btn-default btn-xs"><em class="fa fa-edit">&nbsp;</em>{LANG.workforce_edit}</a></li>
     <li><a href="{URL_DELETE}" class="btn btn-danger btn-xs" onclick="return confirm(nv_is_del_confirm[0]);"><em class="fa fa-trash-o">&nbsp;</em>{LANG.delete}</a></li>
 </ul>
@@ -48,7 +51,8 @@
                 <th>{LANG.edittime}</th>
                 <td>{WORKFORCE.edittime}</td>
                 <th>{LANG.status}</th>
-                <td><select class="form-control" style="width: 200px" id="change_status_{WORKFORCE.id}" onchange="nv_chang_status('{WORKFORCE.id}');">
+                <td>
+                    <select class="form-control" style="width: 200px" id="change_status_{WORKFORCE.id}" onchange="nv_chang_status('{WORKFORCE.id}');">
                         <!-- BEGIN: status -->
                         <option value="{STATUS.data}"{STATUS.selected}>{STATUS.value}</option>
                         <!-- END: status -->
@@ -59,17 +63,21 @@
     </table>
 </div>
 <div class="panel panel-default">
-    <div class="panel-heading">{LANG.salary}</div>
+    <div class="panel-heading">{LANG.hisapproval}</div>
     <table class="table table-bordered table-striped">
         <tbody>
             <tr>
+                <th>{LANG.addtime}</th>
                 <th width="220">{LANG.salary}</th>
-                <td>{WORKFORCE.salary}</td>
-            </tr>
-            <tr>
                 <th>{LANG.allowance}</th>
-                <td>{WORKFORCE.allowance}</td>
             </tr>
+            <!-- BEGIN: approval -->
+            <tr>
+                <td>{APPROVAL.addtime}</td>
+                <td>{APPROVAL.salary}</td>
+                <td>{APPROVAL.allowance}</td>
+            </tr>
+            <!-- END: approval -->
         </tbody>
     </table>
 </div>

@@ -25,6 +25,16 @@ while (list ($lang) = $language_query->fetch(3)) {
 
         $sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . " ADD  position varchar(100) NOT NULL AFTER jointime;";
 
+        $sql[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_history_salary(
+          id smallint(4) unsigned NOT NULL AUTO_INCREMENT,
+          userid mediumint(8) unsigned NOT NULL,
+          salary double unsigned NOT NULL,
+          allowance double unsigned NOT NULL DEFAULT '0' COMMENT 'Phụ cấp',
+          useradd mediumint(8) NOT NULL,
+          addtime varchar(10) NOT NULL,
+          UNIQUE KEY userid (userid,addtime)
+          ) ENGINE=MyISAM";
+
         foreach ($sql as $_sql) {
             try {
                 $db->query($_sql);
