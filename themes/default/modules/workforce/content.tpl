@@ -165,7 +165,7 @@
             </div>
         </div>
     </div>
-    <div class="form-group text-center button_fixed_bottom">
+    <div class="form-group text-center">
         <input type="hidden" name="submit" value="1" />
         <input class="btn btn-primary" type="submit" id="btn-submit" value="{LANG.save}" />
     </div>
