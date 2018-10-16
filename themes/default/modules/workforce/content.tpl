@@ -38,7 +38,7 @@
                         <input class="form-control datepicker" type="text" name="birthday" value="{ROW.birthday}" autocomplete="off" />
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button" id="birthday-btn">
-                                <em class="fa fa-calendar fa-fix"> </em>
+                                <em class="fa fa-calendar fa-fix"> </em>
                             </button>
                         </span>
                     </div>
@@ -87,7 +87,7 @@
                         <input class="form-control datepicker" type="text" name="jointime" value="{ROW.jointime}" pattern="^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{1,4}$" />
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
-                                <em class="fa fa-calendar fa-fix"> </em>
+                                <em class="fa fa-calendar fa-fix"> </em>
                             </button>
                         </span>
                     </div>
@@ -114,9 +114,9 @@
             <div class="form-group">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.type_account}</strong><span class="red">(*)</span></label>
                 <div class="col-sm-19 col-md-20">
-                    <input class="col-sm-19 col-md-20" type="radio" name="portion_selection" id="button_one" value="button_one" checked="checked" />
+                    <input class="col-sm-19 col-md-20 radio_btn" type="radio" name="portion_selection" id="button_one" value="" />
                     <label class="col-sm-19 col-md-4"><strong>{LANG.haveaccount}</strong></label>
-                    <input class="col-sm-19 col-md-20" type="radio" name="portion_selection" value="infoaccount" />
+                    <input class="col-sm-19 col-md-20 radio_btn" type="radio" id="button_two" name="portion_selection" value="1" />
                     <label class="col-sm-19 col-md-4"><strong>{LANG.createaccount}</strong></label>
                 </div>
             </div>
@@ -135,13 +135,13 @@
                 <div class="col-sm-19 col-md-20">
                     <div class="row">
                         <div class="col-xs-8">
-                            <input class="form-control" type="text" name="username" value="{ROW.username}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" placeholder="{LANG.username}" />
+                            <input class="form-control us_pas" type="text" name="username" value="{ROW.username}" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" placeholder="{LANG.username}" />
                         </div>
                         <div class="col-xs-8">
-                            <input class="form-control" type="password" name="password" value="{ROW.password}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" placeholder="{LANG.password}" />
+                            <input class="form-control us_pas" type="password" name="password" value="{ROW.password}" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" placeholder="{LANG.password}" />
                         </div>
                         <div class="col-xs-8">
-                            <input class="form-control" type="password" name="looppassword" value="{ROW.looppassword}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" placeholder="{LANG.looppassword}" />
+                            <input class="form-control us_pas" type="password" name="looppassword" value="{ROW.looppassword}" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" placeholder="{LANG.looppassword}" />
                         </div>
                     </div>
                 </div>
@@ -167,8 +167,6 @@
     </div>
     <div class="form-group text-center button_fixed_bottom">
         <input type="hidden" name="submit" value="1" />
-        <input type="hidden" name="ajax" value="{ROW.ajax}" />
-        <input type="hidden" name="useridlink" value="{ROW.useridlink}" />
         <input class="btn btn-primary" type="submit" id="btn-submit" value="{LANG.save}" />
     </div>
 </form>
@@ -238,12 +236,10 @@
         markup += '</div></div>';
         return markup;
     }
-
     function formatRepoSelection(repo) {
         $('#username').val(repo.username);
         return repo.username || repo.text;
     }
-
     $('#form-workforce').submit(function(e) {
         e.preventDefault();
         $.ajax({
@@ -267,15 +263,26 @@
             }
         });
     })
-
     //]]>
 </script>
 <script type="text/javascript">
-    $("button_one[value='1']:checked").val();
-    $("input[name='portion_selection']:radio").change(function() {
-        $("#portion_one").toggle($(this).val() == "button_one");
-        
-        $("#infoaccount").toggle($(this).val() == "infoaccount");
+    $('.radio_btn:first').attr('checked', true);
+    
+    $(function() {
+        $("input[name='portion_selection']").click(function() {
+            if ($("#button_two").is(":checked")) {
+                $("#userid").find('input').prop('disabled', true);
+                $(".us_pas").find('input').prop('disabled', false);
+                $("#portion_one").hide();
+                $("#infoaccount").show();
+            } else {
+                $("#userid").find('input').prop('disabled', false);
+                $(".us_pas").find('input').prop('disabled', true);
+                $("#portion_one").show();
+                $("#infoaccount").hide();
+                
+            }
+        });
     });
 </script>
 <!-- END: main -->
