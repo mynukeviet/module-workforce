@@ -1,6 +1,7 @@
 <!-- BEGIN: main -->
 <form action="" method="post" class="form-horizontal">
     <div class="panel panel-default">
+        <div class="panel-heading">{LANG.config_general}</div>
         <div class="panel-body">
             <div class="form-group">
                 <label class="col-sm-4 control-label">{LANG.config_groups_admin}</label>
@@ -16,6 +17,23 @@
                     <!-- BEGIN: groups_use -->
                     <label class="show"><input type="checkbox" name="groups_use[]" value="{GROUPS.value}" {GROUPS.checked} />{GROUPS.title}</label>
                     <!-- END: groups_use -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">{LANG.config_salary}</div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{LANG.config_workdays}</label>
+                <div class="col-sm-20">
+                    <input class="form-control" name="workdays" value="{DATA.workdays}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">{LANG.config_insurrance}</label>
+                <div class="col-sm-20">
+                    <input class="form-control" name="insurrance" value="{DATA.insurrance}" />
                 </div>
             </div>
         </div>

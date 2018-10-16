@@ -18,6 +18,8 @@ if ($nv_Request->isset_request('savesetting', 'post')) {
     $data['groups_admin'] = !empty($data['groups_admin']) ? implode(',', $data['groups_admin']) : '';
     $data['groups_use'] = $nv_Request->get_typed_array('groups_use', 'post', 'int');
     $data['groups_use'] = !empty($data['groups_use']) ? implode(',', $data['groups_use']) : '';
+    $data['workdays'] = $nv_Request->get_title('workdays', 'post', 24);
+    $data['insurrance'] = $nv_Request->get_title('insurrance', 'post', 10.5);
 
     $sth = $db->prepare("UPDATE " . NV_CONFIG_GLOBALTABLE . " SET config_value = :config_value WHERE lang = '" . NV_LANG_DATA . "' AND module = :module_name AND config_name = :config_name");
     $sth->bindParam(':module_name', $module_name, PDO::PARAM_STR);
