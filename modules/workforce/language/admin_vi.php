@@ -23,3 +23,4 @@ $lang_module['config_general'] = 'Chung';
 $lang_module['config_salary'] = 'Bảng lương';
 $lang_module['config_workdays'] = 'Ngày công trong tháng';
 $lang_module['config_insurrance'] = 'Hệ số bảo hiểm';
+$lang_module['config_overtime'] = 'Tỉ lệ lương làm thêm';

@@ -25,6 +25,12 @@
         <div class="panel-heading">{LANG.config_salary}</div>
         <div class="panel-body">
             <div class="form-group">
+                <label class="col-sm-4 control-label">{LANG.config_overtime}</label>
+                <div class="col-sm-20">
+                    <input class="form-control" name="overtime" value="{DATA.overtime}" />
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-4 control-label">{LANG.config_workdays}</label>
                 <div class="col-sm-20">
                     <input class="form-control" name="workdays" value="{DATA.workdays}" />

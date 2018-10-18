@@ -25,6 +25,7 @@ $xtpl->assign('LANG', $lang_module);
 $xtpl->assign('MODULE_NAME', $module_name);
 $xtpl->assign('OP', $op);
 $xtpl->assign('ROW', $row);
+$xtpl->assign('insurrance', $array_config['insurrance']);
 
 while ($view = $sth->fetch()) {
     $view['salary'] = number_format($view['salary']);
@@ -32,6 +33,8 @@ while ($view = $sth->fetch()) {
     $view['total'] = number_format($view['total']);
     $view['deduction'] = number_format($view['deduction']);
     $view['received'] = number_format($view['received']);
+    $view['holiday_salary'] = number_format($view['holiday_salary']);
+    $view['bhxh'] = number_format($view['bhxh']);
     $xtpl->assign('VIEW', $view);
     $xtpl->parse('main.loop');
 }
@@ -39,7 +42,7 @@ while ($view = $sth->fetch()) {
 $xtpl->parse('main');
 $contents = $xtpl->text('main');
 
-$page_title = $lang_module['salary'];
+$page_title = $lang_module['salary_history'];
 $array_mod_title[] = array(
     'title' => $page_title,
     'link' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op

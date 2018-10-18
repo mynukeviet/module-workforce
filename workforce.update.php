@@ -24,12 +24,17 @@ while (list ($lang) = $language_query->fetch(3)) {
         $data = array();
         $data['workdays'] = 24; // tổng số ngày công trong tháng
         $data['insurrance'] = 10.5; // hệ số tính bảo hiểm
+        $data['overtime'] = 150; // tỉ lệ lương làm thêm giờ
 
         foreach ($data as $config_name => $config_value) {
             $sql[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', " . $db->quote($mod) . ", " . $db->quote($config_name) . ", " . $db->quote($config_value) . ")";
         }
 
         $sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . " ADD  position varchar(100) NOT NULL AFTER jointime;";
+
+        $sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_salary ADD holiday DOUBLE UNSIGNED NOT NULL DEFAULT '0' AFTER workday, ADD holiday_salary DOUBLE UNSIGNED NOT NULL DEFAULT '0' AFTER holiday;";
+
+        $sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_salary ADD bhxh DOUBLE UNSIGNED NOT NULL DEFAULT '0' AFTER total;";
 
         foreach ($sql as $_sql) {
             try {

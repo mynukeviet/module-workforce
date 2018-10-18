@@ -9,9 +9,12 @@
                 <th>{LANG.allowance}</th>
                 <th>{LANG.workday}</th>
                 <th>{LANG.overtime}</th>
+                <th>{LANG.holiday}</th>
+                <th>{LANG.holiday_salary}</th>
                 <th>{LANG.advance}</th>
                 <th>{LANG.bonus}</th>
                 <th>{LANG.total}</th>
+                <th>{LANG.bhxh} ({insurrance}%)</th>
                 <th>{LANG.deduction}</th>
                 <th>{LANG.received}</th>
             </tr>
@@ -24,9 +27,12 @@
                 <td>{VIEW.allowance}</td>
                 <td>{VIEW.workday}</td>
                 <td>{VIEW.overtime}</td>
+                <td>{VIEW.holiday}</td>
+                <td>{VIEW.holiday_salary}</td>
                 <td>{VIEW.advance}</td>
                 <td>{VIEW.bonus}</td>
                 <td>{VIEW.total}</td>
+                <td>{VIEW.bhxh}</td>
                 <td>{VIEW.deduction}</td>
                 <td>{VIEW.received}</td>
             </tr>
