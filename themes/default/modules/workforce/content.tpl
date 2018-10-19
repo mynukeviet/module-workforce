@@ -2,15 +2,14 @@
 <link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.css" />
 <link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2-bootstrap.min.css" />
-
 <!-- BEGIN: error -->
 <div class="alert alert-warning">{ERROR}</div>
 <!-- END: error -->
 <form id="form-workforce" class="form-horizontal" action="{NV_BASE_SITEURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" method="post">
     <div class="panel panel-default">
+        <div class="panel-heading">{LANG.info}</div>
         <div class="panel-body">
-            <input type="hidden" name="id" value="{ROW.id}" />
-            <input type="hidden" name="redirect" value="{ROW.redirect}" />
+            <input type="hidden" name="id" value="{ROW.id}" /> <input type="hidden" name="redirect" value="{ROW.redirect}" />
             <div class="form-group">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.fullname}</strong> <span class="red">(*)</span></label>
                 <div class="col-sm-19 col-md-20">
@@ -36,8 +35,7 @@
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.birthday}</strong> <span class="red">(*)</span></label>
                 <div class="col-sm-19 col-md-20">
                     <div class="input-group">
-                        <input class="form-control datepicker" type="text" name="birthday" value="{ROW.birthday}" autocomplete="off" />
-                        <span class="input-group-btn">
+                        <input class="form-control datepicker" type="text" name="birthday" value="{ROW.birthday}" autocomplete="off" /> <span class="input-group-btn">
                             <button class="btn btn-default" type="button" id="birthday-btn">
                                 <em class="fa fa-calendar fa-fix"> </em>
                             </button>
@@ -82,35 +80,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.jointime}</strong></label>
-                <div class="col-sm-19 col-md-20">
-                    <div class="input-group">
-                        <input class="form-control datepicker" type="text" name="jointime" value="{ROW.jointime}" pattern="^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{1,4}$" />
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <em class="fa fa-calendar fa-fix"> </em>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.part}</strong> </label>
-                <div class="col-sm-19 col-md-20">
-                    <select class="form-control "  style="height: 200px;" cols="75" name="part[]" multiple="multiple" id="part">
-                        <!-- BEGIN: parent_loop -->
-                        <option value="{pid}"{pselect}>{ptitle}</option>
-                        <!-- END: parent_loop -->
-                    </select>
-                </div>
-            </div>
-            
-            <div class="form-group">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.image}</strong></label>
                 <div class="col-sm-19 col-md-20">
                     <div class="input-group">
-                        <input class="form-control" type="text" name="image" value="{ROW.image}" id="id_image" />
-                        <span class="input-group-btn">
+                        <input class="form-control" type="text" name="image" value="{ROW.image}" id="id_image" /> <span class="input-group-btn">
                             <button class="btn btn-default selectfile" type="button">
                                 <em class="fa fa-folder-open-o fa-fix">&nbsp;</em>
                             </button>
@@ -126,10 +99,7 @@
             <div class="form-group">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.type_account}</strong><span class="red">(*)</span></label>
                 <div class="col-sm-19 col-md-20">
-                    <input class="col-sm-19 col-md-20 radio_btn" type="radio" name="portion_selection" id="button_one" value="" />
-                    <label class="col-sm-19 col-md-4"><strong>{LANG.haveaccount}</strong></label>
-                    <input class="col-sm-19 col-md-20 radio_btn" type="radio" id="button_two" name="portion_selection" value="1" />
-                    <label class="col-sm-19 col-md-4"><strong>{LANG.createaccount}</strong></label>
+                    <input class="col-sm-19 col-md-20 radio_btn" type="radio" name="portion_selection" id="button_one" value="" /> <label class="col-sm-19 col-md-4"><strong>{LANG.haveaccount}</strong></label> <input class="col-sm-19 col-md-20 radio_btn" type="radio" id="button_two" name="portion_selection" value="1" /> <label class="col-sm-19 col-md-4"><strong>{LANG.createaccount}</strong></label>
                 </div>
             </div>
             <div class="form-group" id="portion_one">
@@ -161,8 +131,36 @@
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading">{LANG.salary}</div>
+        <div class="panel-heading">{LANG.workinfo}</div>
         <div class="panel-body">
+            <div class="form-group">
+                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.part}</strong> </label>
+                <div class="col-sm-19 col-md-20">
+                    <select class="form-control " style="height: 200px;" cols="75" name="part[]" multiple="multiple" id="part">
+                        <!-- BEGIN: parent_loop -->
+                        <option value="{pid}"{pselect}>{ptitle}</option>
+                        <!-- END: parent_loop -->
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.position}</strong></label>
+                <div class="col-sm-19 col-md-20">
+                    <input class="form-control" type="text" name="position" value="{ROW.position}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.jointime}</strong></label>
+                <div class="col-sm-19 col-md-20">
+                    <div class="input-group">
+                        <input class="form-control datepicker" type="text" name="jointime" value="{ROW.jointime}" pattern="^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{1,4}$" /> <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <em class="fa fa-calendar fa-fix"> </em>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.salary_base}</strong></label>
                 <div class="col-sm-19 col-md-20">
@@ -178,8 +176,7 @@
         </div>
     </div>
     <div class="form-group text-center">
-        <input type="hidden" name="submit" value="1" />
-        <input class="btn btn-primary" type="submit" id="btn-submit" value="{LANG.save}" />
+        <input type="hidden" name="submit" value="1" /> <input class="btn btn-primary" type="submit" id="btn-submit" value="{LANG.save}" />
     </div>
 </form>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.js"></script>
@@ -221,8 +218,6 @@
             templateSelection : formatRepoSelection
         // omitted for brevity, see the source of this page
         });
-        
-       
         
         $(".datepicker").datepicker({
             dateFormat : "dd/mm/yy",
