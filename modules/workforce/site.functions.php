@@ -10,7 +10,7 @@ if (!defined('NV_MAINFILE')) die('Stop!!!');
 
 $workforce_list = nv_crm_list_workforce();
 
-$sql = 'SELECT id, title, lev, numsub, subid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_part WHERE status=1 ORDER BY sort ASC';
+$sql = 'SELECT id, title, lev, numsub, subid FROM ' . NV_PREFIXLANG . '_workforce_part WHERE status=1 ORDER BY sort ASC';
 $result = $db->query($sql);
 $array_part_list = array();
 
@@ -33,7 +33,7 @@ while (list ($id_i, $title_i, $lev_i, $numsub, $subid) = $result->fetch(3)) {
 
 function nv_crm_list_workforce($in_groups = '', $partid = 0)
 {
-    global $db, $nv_Cache, $module_info;
+    global $db, $nv_Cache, $module_info, $array_part_list;
 
     $where = '';
     $where .= !empty($in_groups) ? ' AND t1.userid IN (SELECT userid FROM ' . NV_USERS_GLOBALTABLE . '_groups_users WHERE group_id IN (' . $in_groups . '))' : '';
@@ -41,7 +41,7 @@ function nv_crm_list_workforce($in_groups = '', $partid = 0)
         $array_partid = nv_workforce_part_in_parent($partid);
         $where .= ' AND part IN (' . implode(',', $array_partid) . ')';
     }
-    $sql = 'SELECT t1.userid, t2.first_name, t2.last_name, t1.username, t1.photo, t2.main_email email, salary, allowance FROM ' . NV_USERS_GLOBALTABLE . ' t1 INNER JOIN ' . NV_PREFIXLANG . '_workforce t2 ON t1.userid=t2.userid WHERE t1.active=1' . $where;
+    $sql = 'SELECT t1.userid, t2.first_name, t2.last_name, t1.username, t1.photo, t2.main_email email, salary, allowance, part, position FROM ' . NV_USERS_GLOBALTABLE . ' t1 INNER JOIN ' . NV_PREFIXLANG . '_workforce t2 ON t1.userid=t2.userid WHERE t1.active=1' . $where;
     $array_data = $nv_Cache->db($sql, 'userid', 'users');
     if (!empty($array_data)) {
         foreach ($array_data as $index => $value) {
@@ -51,6 +51,13 @@ function nv_crm_list_workforce($in_groups = '', $partid = 0)
                 $value['photo'] = NV_BASE_SITEURL . 'themes/default/images/users/no_avatar.png';
             }
             $array_data[$index]['fullname'] = nv_show_name_user($value['first_name'], $value['last_name'], $value['username']);
+
+            $value['part'] = explode(',', $value['part']);
+            $array_part = array();
+            foreach ($value['part'] as $partid) {
+                $array_part[] = $array_part_list[$partid]['title'];
+            }
+            $array_data[$index]['part'] = implode(', ', $array_part);
         }
     }
     return $array_data;
