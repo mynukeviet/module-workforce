@@ -219,8 +219,11 @@ if ($nv_Request->isset_request('submit', 'post')) {
                             $db->query('DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail WHERE userid = ' . $row['userid'] . ' AND part=' . $partid);
                         }
                     }
-                                }
+                }
+
                 $nv_Cache->delMod($module_name);
+                $nv_Cache->delMod('users');
+
                 if (!empty($row['redirect'])) {
                     $url = nv_redirect_decrypt($row['redirect']);
                 } else {
