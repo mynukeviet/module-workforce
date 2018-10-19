@@ -2,6 +2,7 @@
 <link type="text/css" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.css" />
 <link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2-bootstrap.min.css" />
+
 <!-- BEGIN: error -->
 <div class="alert alert-warning">{ERROR}</div>
 <!-- END: error -->
@@ -94,12 +95,11 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.part}</strong> <span class="red">(*)</span></label>
+                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.part}</strong> </label>
                 <div class="col-sm-19 col-md-20">
-                    <select class="form-control select2" name="part" id="part" style="width: 100%">
-                        <option value="0">---{LANG.select_part}---</option>
+                    <select class="form-control "  style="height: 200px;" cols="75" name="part[]" multiple="multiple" id="part">
                         <!-- BEGIN: parent_loop -->
-                        <option value="{pid}">{ptitle}</option>
+                        <option value="{pid}"{pselect}>{ptitle}</option>
                         <!-- END: parent_loop -->
                     </select>
                 </div>
@@ -221,6 +221,8 @@
             templateSelection : formatRepoSelection
         // omitted for brevity, see the source of this page
         });
+        
+       
         
         $(".datepicker").datepicker({
             dateFormat : "dd/mm/yy",

@@ -42,12 +42,12 @@ $result['jointime'] = !empty($result['jointime']) ? nv_date('d/m/Y', $result['jo
 if (!$result) {
     nv_redirect_location(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name);
 }
-// $result['part'] = explode(",", $result['part']);
-// $parts = array();
-// foreach ($result['part'] as $value) {
-//     $parts[$value] = $array_part_list[$value][1];
-// }
-// $result['part'] = implode(", ", $parts);
+$result['part'] = explode(",", $result['part']);
+$parts = array();
+foreach ($result['part'] as $value) {
+    $parts[$value] = $array_part_list[$value][1];
+}
+$result['part'] = implode(", ", $parts);
 
 // xet duyet tang luong
 
