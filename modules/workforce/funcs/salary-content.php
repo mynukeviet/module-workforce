@@ -12,6 +12,7 @@ $maxdays = $array_config['workdays'];
 $percent_overtime = $array_config['overtime'];
 $groups_admin = $array_config['groups_admin'];
 $groups_use = $array_config['groups_use'];
+$partid = $nv_Request->get_int('partid', 'get', 0);
 $current_month = $nv_Request->get_string('month', 'get', nv_date('m/Y', NV_CURRENTTIME));
 
 if ($nv_Request->isset_request('save_change', 'post')) {
@@ -100,7 +101,8 @@ if (!empty($array_search['month'])) {
     $current_month = $array_search['month'];
 }
 
-$workforce_list = nv_crm_list_workforce($groups_use);
+$array_salary = array();
+$workforce_list = nv_crm_list_workforce($groups_use, $partid);
 if (!empty($workforce_list)) {
     $bonus = $advance = $deduction = $received = $total = 0;
     $array_data = array();
@@ -115,7 +117,6 @@ if (!empty($workforce_list)) {
         $array_data[$row['userid']] = $row;
     }
 
-    $array_salary = array();
     foreach ($workforce_list as $userid => $data) {
         if (isset($array_data[$userid])) {
             $array_data[$userid]['fullname'] = $data['fullname'];
@@ -135,14 +136,14 @@ if (!empty($workforce_list)) {
 }
 
 /* $array_salary[] = array(
-    'fullname' => $lang_module['total'],
-    'total' => $total,
-    'received' => $received,
-    'deduction' => $deduction,
-    'advance' => $advance,
-    'bonus' => $bonus
+ 'fullname' => $lang_module['total'],
+ 'total' => $total,
+ 'received' => $received,
+ 'deduction' => $deduction,
+ 'advance' => $advance,
+ 'bonus' => $bonus
 
-); */
+ ); */
 
 if (!empty($array_search['month'])) {
     $base_url .= '&month=' . $array_search['month'];
@@ -164,6 +165,14 @@ for ($i = 1; $i <= 12; $i++) {
     ));
 
     $xtpl->parse('main.month');
+}
+
+foreach ($array_part_list as $index => $rows_i) {
+    $sl = $partid == $index ? ' selected="selected"' : '';
+    $xtpl->assign('pid', $rows_i['id']);
+    $xtpl->assign('ptitle', $rows_i['title']);
+    $xtpl->assign('pselect', $sl);
+    $xtpl->parse('main.parent_loop');
 }
 
 $xtpl->parse('main');

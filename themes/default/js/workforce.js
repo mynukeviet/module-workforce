@@ -5,8 +5,8 @@
  * @Createdate Tue, 02 Jan 2018 08:34:29 GMT
  */
 
-$('#current-month').change(function() {
-    window.location.href = script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=salary-content&month=' + $(this).val();
+$('#current-month, #partid').change(function() {
+    window.location.href = script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=salary-content&month=' + $('#current-month').val() + '&partid=' + $('#partid').val();
 });
 
 function nv_list_action(action, url_action, del_confirm_no_post) {

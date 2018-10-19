@@ -81,6 +81,7 @@ $lang_module['status_0'] = 'Ngưng hoạt động';
 $lang_module['workforce_edit'] = 'Sửa nhân sự';
 $lang_module['info'] = 'Thông tin cá nhân';
 $lang_module['part'] = 'Bộ phận';
+$lang_module['part_all'] = 'Tất cả bộ phận';
 $lang_module['position'] = 'Chức vụ';
 $lang_module['alias'] = 'Liên kết tĩnh';
 $lang_module['office'] = 'Văn phòng';

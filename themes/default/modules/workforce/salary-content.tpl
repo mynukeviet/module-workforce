@@ -1,9 +1,21 @@
 <!-- BEGIN: main -->
 <link rel="stylesheet" media="screen" href="{NV_BASE_SITEURL}{NV_FILES_DIR}/js/handsontable/handsontable.full.css">
+<link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.css">
+<link rel="stylesheet" href="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2-bootstrap.min.css">
 <form action="{NV_BASE_SITEURL}index.php" method="get">
     <input type="hidden" name="{NV_LANG_VARIABLE}" value="{NV_LANG_DATA}" /> <input type="hidden" name="{NV_NAME_VARIABLE}" value="{MODULE_NAME}" /> <input type="hidden" name="{NV_OP_VARIABLE}" value="{OP}" />
     <div class="row">
-        <div class="col-xs-24 col-md-6">
+        <div class="col-xs-24 col-md-4">
+            <div class="form-group">
+                <select class="form-control select2" name="partid" id="partid">
+                    <option value="0">---{LANG.part_all}---</option>
+                    <!-- BEGIN: parent_loop -->
+                    <option value="{pid}"{pselect}>{ptitle}</option>
+                    <!-- END: parent_loop -->
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-24 col-md-4">
             <div class="form-group">
                 <select class="form-control" name="month" id="current-month" onchange="window.reload()">
                     <!-- BEGIN: month -->
@@ -17,8 +29,14 @@
 <h1 class="text-center title">{TITLE}</h1>
 <div id="salary-table"></div>
 <script src="{NV_BASE_SITEURL}{NV_FILES_DIR}/js/handsontable/handsontable.full.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/select2.min.js"></script>
+<script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/select2/i18n/{NV_LANG_INTERFACE}.js"></script>
 <script>
 $(document).ready(function () {
+    $('.select2').select2({
+        theme: 'bootstrap'
+    });
+
     var data = {DATA};
     var $container = document.getElementById('salary-table');
 	var hotElement = new Handsontable($container, {

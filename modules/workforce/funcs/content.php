@@ -273,8 +273,8 @@ foreach ($array_gender as $index => $value) {
 
 foreach ($array_part_list as $partid => $rows_i) {
     $sl = in_array($partid, $row['part']) ? ' selected="selected"' : '';
-    $xtpl->assign('pid', $rows_i[0]);
-    $xtpl->assign('ptitle', $rows_i[1]);
+    $xtpl->assign('pid', $rows_i['id']);
+    $xtpl->assign('ptitle', $rows_i['title']);
     $xtpl->assign('pselect', $sl);
     $xtpl->parse('main.parent_loop');
 }

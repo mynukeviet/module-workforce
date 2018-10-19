@@ -195,7 +195,7 @@ foreach ($array_action as $key => $value) {
 foreach ($array_part_list as $key => $value) {
     $xtpl->assign('PART', array(
         'key' => $key,
-        'value' => $value[1],
+        'value' => $value['title'],
         'selected' => ($key == $array_search['part']) ? ' selected="selected"' : ''
     ));
     $xtpl->parse('main.select_part');
