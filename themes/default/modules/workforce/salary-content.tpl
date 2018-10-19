@@ -117,13 +117,6 @@ $(document).ready(function () {
         } ],
         stretchH : 'all',
         colHeaders : [ 'Họ & tên', 'Lương cơ bản', 'Phụ cấp', 'Ngày công', 'Ngày làm thêm', 'Phép - lễ', 'Lương nghỉ phép, nghỉ lễ', 'Tạm ứng', 'Thưởng', 'Tổng lương', 'Trừ BHXH', 'Các khoản trừ', 'Thực nhận' ],
-        renderer: function (instance, td, row, col, prop, value, cellProperties) {
-            Handsontable.TextCell.renderer.apply(this, arguments);
-
-            if (cellProperties.isModified === true) {
-                td.style.background = 'yellow';
-            }
-        },
         afterChange: function (changes, source) {
             if (source === 'loadData' || source === 'populateFromArray' || changes[0][1] === 'total' || changes[0][1] === 'received' || changes[0][1] === 'holiday_salary') {
                 return;

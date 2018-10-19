@@ -95,6 +95,11 @@ function nv_empty_value($value)
     return !empty($value) ? $value : '';
 }
 
+function nv_number_format($number)
+{
+    return number_format($number);
+}
+
 function nv_caculate_percent($a, $b)
 {
     return ($a * 100) / $b;

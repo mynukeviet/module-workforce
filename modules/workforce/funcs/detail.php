@@ -39,19 +39,36 @@ $result['addtime'] = nv_date('H:i d/m/Y', $result['addtime']);
 $result['edittime'] = !empty($result['edittime']) ? nv_date('H:i d/m/Y', $result['edittime']) : '';
 $result['birthday'] = !empty($result['birthday']) ? nv_date('d/m/Y', $result['birthday']) : '';
 $result['jointime'] = !empty($result['jointime']) ? nv_date('d/m/Y', $result['jointime']) : '-';
-
-$result['part'] = explode(",", $result['part']);
-$parts = array();
+if (!$result) {
+    nv_redirect_location(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name);
+}
+// $result['part'] = explode(",", $result['part']);
+// $parts = array();
 // foreach ($result['part'] as $value) {
 //     $parts[$value] = $array_part_list[$value][1];
 // }
-$result['part'] = implode(", ", $parts);
+// $result['part'] = implode(", ", $parts);
+
+// xet duyet tang luong
+
+$arr = array();
+
+$approval = $db->query('SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_history_salary WHERE userid = ' . $id);
+while ($row = $approval->fetch()) {
+    $row['addtime'] = nv_date('H:i d/m/Y', $row['addtime']);
+    $row['salary'] = nv_number_format($row['salary']);
+    $row['allowance'] = nv_number_format($row['allowance']);
+    $arr[$row['id']] = $row;
+}
 
 $xtpl = new XTemplate($op . '.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
 $xtpl->assign('URL_EDIT', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=content&amp;id=' . $id . '&amp;redirect=' . nv_redirect_encrypt($client_info['selfurl']));
 $xtpl->assign('URL_DELETE', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;delete_id=' . $id . '&amp;delete_checkss=' . md5($id . NV_CACHE_PREFIX . $client_info['session_id']));
 $xtpl->assign('LANG', $lang_module);
 $xtpl->assign('WORKFORCE', $result);
+if (nv_workforce_check_premission()) {
+    $xtpl->assign('URL_APPROVAL', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=history-salary&amp;id=' . $id);
+}
 
 foreach ($array_status as $data => $value) {
     $selected = $data == $result['status'] ? 'selected = "selected"' : '';
@@ -61,6 +78,11 @@ foreach ($array_status as $data => $value) {
         'selected' => $selected
     ));
     $xtpl->parse('main.status');
+}
+
+foreach ($arr as $approval) {
+    $xtpl->assign('APPROVAL', $approval);
+    $xtpl->parse('main.approval');
 }
 
 $xtpl->parse('main');
