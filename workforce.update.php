@@ -43,6 +43,7 @@ while (list ($lang) = $language_query->fetch(3)) {
           allowance double unsigned NOT NULL DEFAULT '0' COMMENT 'Phụ cấp',
           useradd mediumint(8) NOT NULL,
           addtime varchar(10) NOT NULL,
+          PRIMARY KEY (id),
           UNIQUE KEY userid (userid,addtime)
           ) ENGINE=MyISAM";
 
