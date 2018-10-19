@@ -17,6 +17,7 @@ if (empty($array_part)) {
     echo nv_site_theme($contents);
     include NV_ROOTDIR . '/includes/footer.php';
 }
+
 $row = array();
 $error = array();
 $row['id'] = $nv_Request->get_int('id', 'post,get', 0);
@@ -204,21 +205,21 @@ if ($nv_Request->isset_request('submit', 'post')) {
                 }
             }
             if ($new_id > 0) {
-                //                 if ($row['part'] != $row['part_old']) {
-                //                     $sth = $db->prepare('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail (userid, part) VALUES(:userid, :part)');
-                //                     foreach ($row['part'] as $partid) {
-                //                         if (!in_array($partid, $row['part_old'])) {
-                //                             $sth->bindParam(':userid', $row['userid'], PDO::PARAM_INT);
-                //                             $sth->bindParam(':part', $partid, PDO::PARAM_INT);
-                //                             $sth->execute();
-                //                         }
-                //                     }
-                //                     foreach ($row['part_old'] as $partid) {
-                //                         if (!in_array($partid, $row['part'])) {
-                //                             $db->query('DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail WHERE userid = ' . $row['userid'] . ' AND part=' . $partid);
-                //                         }
-                //                     }
-                //                 }
+                if ($row['part'] != $row['part_old']) {
+                    $sth = $db->prepare('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail (userid, part) VALUES(:userid, :part)');
+                    foreach ($row['part'] as $partid) {
+                        if (!in_array($partid, $row['part_old'])) {
+                            $sth->bindParam(':userid', $row['userid'], PDO::PARAM_INT);
+                            $sth->bindParam(':part', $partid, PDO::PARAM_INT);
+                            $sth->execute();
+                        }
+                    }
+                    foreach ($row['part_old'] as $partid) {
+                        if (!in_array($partid, $row['part'])) {
+                            $db->query('DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail WHERE userid = ' . $row['userid'] . ' AND part=' . $partid);
+                        }
+                    }
+                                }
                 $nv_Cache->delMod($module_name);
                 if (!empty($row['redirect'])) {
                     $url = nv_redirect_decrypt($row['redirect']);

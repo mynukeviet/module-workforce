@@ -94,6 +94,18 @@
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.part}</strong> <span class="red">(*)</span></label>
+                <div class="col-sm-19 col-md-20">
+                    <select class="form-control select2" name="part" id="part" style="width: 100%">
+                        <option value="0">---{LANG.select_part}---</option>
+                        <!-- BEGIN: parent_loop -->
+                        <option value="{pid}">{ptitle}</option>
+                        <!-- END: parent_loop -->
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.image}</strong></label>
                 <div class="col-sm-19 col-md-20">
                     <div class="input-group">
