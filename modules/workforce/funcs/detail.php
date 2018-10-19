@@ -28,7 +28,6 @@ $id = $nv_Request->get_int('id', 'get', 0);
 $status = $nv_Request->get_int('status', 'get', 0);
 
 $result = $db->query('SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . ' WHERE id = ' . $id)->fetch();
-
 if (!$result) {
     nv_redirect_location(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name);
 }
@@ -39,16 +38,13 @@ $result['addtime'] = nv_date('H:i d/m/Y', $result['addtime']);
 $result['edittime'] = !empty($result['edittime']) ? nv_date('H:i d/m/Y', $result['edittime']) : '';
 $result['birthday'] = !empty($result['birthday']) ? nv_date('d/m/Y', $result['birthday']) : '';
 $result['jointime'] = !empty($result['jointime']) ? nv_date('d/m/Y', $result['jointime']) : '-';
-if (!$result) {
-    nv_redirect_location(NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name);
-}
-$result['part'] = explode(",", $result['part']);
-$parts = array();
-foreach ($result['part'] as $value) {
-    $parts[$value] = $array_part_list[$value][1];
-}
-$result['part'] = implode(", ", $parts);
 
+$array_parts_title = array();
+$result['part'] = explode(",", $result['part']);
+foreach ($result['part'] as $partid) {
+    $array_parts_title[] = $array_part_list[$partid]['title'];
+}
+$result['part'] = implode(", ", $array_parts_title);
 // xet duyet tang luong
 
 $arr = array();
