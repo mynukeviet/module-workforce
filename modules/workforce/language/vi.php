@@ -112,7 +112,7 @@ $lang_module['edit_error_email_exist'] = 'Lỗi: Email đã tồn tại';
 $lang_module['edit_error_group_default'] = 'Lỗi: nhóm group không tồn tại';
 $lang_module['edit_add_error'] = 'Lỗi: thêm tài khoản không thành công';
 
-$lang_module['error_required_userid'] = 'Lỗi: bạn cần nhập thông tin Tài khoản thành viên';
+$lang_module['error_required_username'] = 'Lỗi: bạn cần nhập thông tin Tài khoản thành viên';
 $lang_module['error_required_choiceuserid'] = 'Lỗi: bạn cần chọn thông tin Tài khoản thành viên';
 $lang_module['error_required_first_name'] = 'Lỗi: bạn cần nhập dữ liệu cho Tên';
 $lang_module['error_required_last_name'] = 'Lỗi: bạn cần nhập dữ liệu cho Họ và tên đệm';

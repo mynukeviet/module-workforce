@@ -106,8 +106,8 @@ if ($nv_Request->isset_request('submit', 'post')) {
         if (empty($row['username'])) {
             nv_jsonOutput(array(
                 'error' => 1,
-                'msg' => $lang_module['error_required_userid'],
-                'input' => 'userid'
+                'msg' => $lang_module['error_required_username'],
+                'input' => 'username'
             ));
         } elseif (empty($row['looppassword'])) {
             nv_jsonOutput(array(
