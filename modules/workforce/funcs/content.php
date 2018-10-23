@@ -103,7 +103,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
 
     $part = !empty($row['part']) ? implode(',', $row['part']) : '';
     if (!empty($row['btn_radio'])) {
-        if (empty($row['userid']) && empty($row['username'])) {
+        if (empty($row['username'])) {
             nv_jsonOutput(array(
                 'error' => 1,
                 'msg' => $lang_module['error_required_userid'],
@@ -125,7 +125,15 @@ if ($nv_Request->isset_request('submit', 'post')) {
         $userid = nv_createaccount($username, $row['password'], $email, $ingroups, $firstname, $lastname, $row['gender']);
     } else {
         $userid = $row['userid'];
+        if (empty($row['userid'])) {
+            nv_jsonOutput(array(
+                'error' => 1,
+                'msg' => $lang_module['error_required_choiceuserid'],
+                'input' => 'userid'
+            ));
+        }
     }
+
     if (empty($row['first_name'])) {
         nv_jsonOutput(array(
             'error' => 1,
@@ -155,12 +163,6 @@ if ($nv_Request->isset_request('submit', 'post')) {
             'error' => 1,
             'msg' => $lang_module['error_required_main_email'],
             'input' => 'main_email'
-        ));
-    }elseif (empty($row['userid'])) {
-        nv_jsonOutput(array(
-            'error' => 1,
-            'msg' => $lang_module['error_required_userid'],
-            'input' => 'username'
         ));
     }
     if (empty($error)) {
@@ -225,7 +227,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
                             $db->query('DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail WHERE userid = ' . $row['userid'] . ' AND part=' . $partid);
                         }
                     }
-                                }
+                }
                 $nv_Cache->delMod($module_name);
                 if (!empty($row['redirect'])) {
                     $url = nv_redirect_decrypt($row['redirect']);
