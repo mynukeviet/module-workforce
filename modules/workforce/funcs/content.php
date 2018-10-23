@@ -122,7 +122,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
                 'input' => 'looppassword'
             ));
         }
-        $userid = nv_createaccount($username, $row['password'], $email, $ingroups, $firstname, $lastname, $gender);
+        $userid = nv_createaccount($username, $row['password'], $email, $ingroups, $firstname, $lastname, $row['gender']);
     } else {
         $userid = $row['userid'];
     }
@@ -155,6 +155,12 @@ if ($nv_Request->isset_request('submit', 'post')) {
             'error' => 1,
             'msg' => $lang_module['error_required_main_email'],
             'input' => 'main_email'
+        ));
+    }elseif (empty($row['userid'])) {
+        nv_jsonOutput(array(
+            'error' => 1,
+            'msg' => $lang_module['error_required_userid'],
+            'input' => 'username'
         ));
     }
     if (empty($error)) {
