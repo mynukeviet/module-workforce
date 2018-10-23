@@ -8,7 +8,7 @@
                 <col />
                 <col />
                 <col width="50" />
-                <col width="100" />
+                <col width="180" />
             </colgroup>
             <thead>
                 <tr>
