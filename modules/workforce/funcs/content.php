@@ -217,7 +217,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
                     $sth = $db->prepare('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail (userid, part) VALUES(:userid, :part)');
                     foreach ($row['part'] as $partid) {
                         if (!in_array($partid, $row['part_old'])) {
-                            $sth->bindParam(':userid', $row['userid'], PDO::PARAM_INT);
+                            $sth->bindParam(':userid', $userid, PDO::PARAM_INT);
                             $sth->bindParam(':part', $partid, PDO::PARAM_INT);
                             $sth->execute();
                         }

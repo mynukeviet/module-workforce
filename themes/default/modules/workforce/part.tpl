@@ -7,7 +7,7 @@
                 <col width="50"/>
                 <col />
                 <col />
-                <col width="50" />
+                <col width="50" /> 
                 <col width="180" />
             </colgroup>
             <thead>

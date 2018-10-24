@@ -102,12 +102,12 @@ if (!empty($array_search['q'])) {
         OR main_email LIKE "%' . $array_search['q'] . '%"
     )';
 }
-
 if (!empty($array_search['part'])) {
-    $inner .= ' INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail t2 on t1.id = t2.userid ';
+    $inner .= ' INNER JOIN ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail t2 on t1.userid = t2.userid ';
     $base_url .= '&part=' . $array_search['part'];
     $where .= ' AND t2.part=' . $array_search['part'];
 }
+
 
 if ($array_search['status'] >= 0) {
     $base_url .= '&status=' . $array_search['status'];
@@ -125,7 +125,7 @@ $db->select('*')
     ->offset(($page - 1) * $per_page)
     ->join($inner)
     ->where(' 1=1 ' . $where);
-
+//     die($db->sql());
 $sth = $db->prepare($db->sql());
 
 $sth->execute();
