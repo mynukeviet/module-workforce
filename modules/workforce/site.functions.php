@@ -10,7 +10,7 @@ if (!defined('NV_MAINFILE')) die('Stop!!!');
 
 $workforce_list = nv_crm_list_workforce();
 
-$sql = 'SELECT id, title, lev FROM ' . NV_PREFIXLANG . '_' . $module_data . '_part WHERE status=1 ORDER BY sort ASC';
+$sql = 'SELECT id, title, lev FROM ' . NV_PREFIXLANG . '_workforce_part WHERE status=1 ORDER BY sort ASC';
 $result = $db->query($sql);
 $array_part_list = array();
 

@@ -66,8 +66,10 @@ $xtpl->assign('URL_EDIT', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=
 $xtpl->assign('URL_DELETE', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;delete_id=' . $id . '&amp;delete_checkss=' . md5($id . NV_CACHE_PREFIX . $client_info['session_id']));
 $xtpl->assign('LANG', $lang_module);
 $xtpl->assign('WORKFORCE', $result);
-if (nv_workforce_check_premission()) {
+
+if (nv_workforce_check_premission() && isset($site_mods['salary'])) {
     $xtpl->assign('URL_APPROVAL', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=history-salary&amp;id=' . $id);
+    $xtpl->parse('main.salary');
 }
 
 foreach ($array_status as $data => $value) {

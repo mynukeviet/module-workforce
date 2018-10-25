@@ -1,8 +1,8 @@
 <!-- BEGIN: main -->
 <ul class="list-inline pull-right">
-
+<!-- BEGIN: salary -->
     <li><a href="{URL_APPROVAL}" class="btn btn-primary btn-xs"><em class="fa fa-bar-chart">&nbsp;</em>{LANG.approval}</a></li>
-
+<!-- END: salary -->
     <li><a href="{URL_EDIT}" class="btn btn-default btn-xs"><em class="fa fa-edit">&nbsp;</em>{LANG.workforce_edit}</a></li>
     <li><a href="{URL_DELETE}" class="btn btn-danger btn-xs" onclick="return confirm(nv_is_del_confirm[0]);"><em class="fa fa-trash-o">&nbsp;</em>{LANG.delete}</a></li>
 </ul>
