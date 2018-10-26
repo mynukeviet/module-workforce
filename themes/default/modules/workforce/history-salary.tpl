@@ -5,7 +5,8 @@
 <!-- BEGIN: error -->
 <div class="alert alert-warning">{ERROR}</div>
 <!-- END: error -->
-<form id="form-workforce" class="form-horizontal" action="{NV_BASE_SITEURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" method="post">
+<form id="form-salary" class="form-horizontal" action="{NV_BASE_SITEURL}index.php?{NV_LANG_VARIABLE}={NV_LANG_DATA}&amp;{NV_NAME_VARIABLE}={MODULE_NAME}&amp;{NV_OP_VARIABLE}={OP}" method="post">
+    <input type="hidden" name="redirect" value="{ROW.redirect}" />
     <div class="panel panel-default">
         <div class="panel-heading">{LANG.salary}</div>
         <div class="panel-body">
@@ -13,13 +14,13 @@
                 <input class="form-control" type="hidden" name="userid" value="{ROW.id}" />
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.salary_base}</strong></label>
                 <div class="col-sm-19 col-md-20">
-                    <input class="form-control" type="text" name="salary" value="{ROW.salary}" />
+                    <input class="form-control" type="number" name="salary" value="{ROW.salary}" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.allowance}</strong></label>
                 <div class="col-sm-19 col-md-20">
-                    <input class="form-control" type="text" name="allowance" value="{ROW.allowance}" />
+                    <input class="form-control" type="number" name="allowance" value="{ROW.allowance}" />
                 </div>
             </div>
         </div>
@@ -55,8 +56,7 @@
 <script type="text/javascript">
     //<![CDATA[
     $(document).ready(function() {
-
-    $('#form-workforce').submit(function(e) {
+     $('#form-workforce').submit(function(e) {
         e.preventDefault();
         $.ajax({
             type : 'POST',
@@ -78,7 +78,7 @@
                 }
             }
         });
-   
+     })
     //]]>
 </script>
 <!-- END: main -->
