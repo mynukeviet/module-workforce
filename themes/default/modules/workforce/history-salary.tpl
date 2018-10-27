@@ -11,8 +11,7 @@
         <div class="panel-heading">{LANG.salary}</div>
         <div class="panel-body">
             <div class="form-group">
-                <input class="form-control" type="hidden" name="userid" value="{ROW.id}" />
-                <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.salary_base}</strong></label>
+                <input class="form-control" type="hidden" name="userid" value="{ROW.id}" /> <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.salary_base}</strong></label>
                 <div class="col-sm-19 col-md-20">
                     <input class="form-control" type="number" name="salary" value="{ROW.salary}" />
                 </div>
@@ -26,27 +25,26 @@
         </div>
     </div>
     <div class="panel panel-default">
-    <div class="panel-heading">{LANG.hisapproval}</div>
-    <table class="table table-bordered table-striped">
-        <tbody>
-            <tr>
-                <th>{LANG.addtime}</th>
-                <th width="220">{LANG.salary}</th>
-                <th>{LANG.allowance}</th>
-            </tr>
-            <!-- BEGIN: approval -->
-            <tr>
-                <td>{APPROVAL.addtime}</td>
-                <td>{APPROVAL.salary}</td>
-                <td>{APPROVAL.allowance}</td>
-            </tr>
-            <!-- END: approval -->
-        </tbody>
-    </table>
-</div>
+        <div class="panel-heading">{LANG.hisapproval}</div>
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th>{LANG.addtime}</th>
+                    <th width="220">{LANG.salary}</th>
+                    <th>{LANG.allowance}</th>
+                </tr>
+                <!-- BEGIN: approval -->
+                <tr>
+                    <td>{APPROVAL.addtime}</td>
+                    <td>{APPROVAL.salary}</td>
+                    <td>{APPROVAL.allowance}</td>
+                </tr>
+                <!-- END: approval -->
+            </tbody>
+        </table>
+    </div>
     <div class="form-group text-center button_fixed_bottom">
-        <input type="hidden" name="submit" value="1" />
-        <input class="btn btn-primary" type="submit" id="btn-submit" value="{LANG.save}" />
+        <input type="hidden" name="submit" value="1" /> <input class="btn btn-primary" type="submit" id="btn-submit" value="{LANG.save}" />
     </div>
 </form>
 <script type="text/javascript" src="{NV_BASE_SITEURL}{NV_ASSETS_DIR}/js/jquery-ui/jquery-ui.min.js"></script>

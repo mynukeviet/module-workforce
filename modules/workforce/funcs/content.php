@@ -102,37 +102,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
     $ingroups = $array_config['groups_use'];
     
     $part = !empty($row['part']) ? implode(',', $row['part']) : '';
-    if (!empty($row['btn_radio'])) {
-        if (empty($row['username'])) {
-            nv_jsonOutput(array(
-                'error' => 1,
-                'msg' => $lang_module['error_required_username'],
-                'input' => 'username'
-            ));
-        } elseif (empty($row['looppassword'])) {
-            nv_jsonOutput(array(
-                'error' => 1,
-                'msg' => $lang_module['error_required_looppassword'],
-                'input' => 'looppassword'
-            ));
-        } elseif ($row['password'] != $row['looppassword']) {
-            nv_jsonOutput(array(
-                'error' => 1,
-                'msg' => $lang_module['error_required_pass'],
-                'input' => 'looppassword'
-            ));
-        }
-        $userid = nv_createaccount($username, $row['password'], $email, $ingroups, $firstname, $lastname, $row['gender']);
-    } else {
-        $userid = $row['userid'];
-        if (empty($row['userid'])) {
-            nv_jsonOutput(array(
-                'error' => 1,
-                'msg' => $lang_module['error_required_choiceuserid'],
-                'input' => 'userid'
-            ));
-        }
-    }    
+    
     if (empty($row['first_name'])) {
         nv_jsonOutput(array(
             'error' => 1,
@@ -164,6 +134,38 @@ if ($nv_Request->isset_request('submit', 'post')) {
             'input' => 'main_email'
         ));
     }
+    if (!empty($row['btn_radio'])) {
+        if (empty($row['username'])) {
+            nv_jsonOutput(array(
+                'error' => 1,
+                'msg' => $lang_module['error_required_username'],
+                'input' => 'username'
+            ));
+        } elseif (empty($row['looppassword'])) {
+            nv_jsonOutput(array(
+                'error' => 1,
+                'msg' => $lang_module['error_required_looppassword'],
+                'input' => 'looppassword'
+            ));
+        } elseif ($row['password'] != $row['looppassword']) {
+            nv_jsonOutput(array(
+                'error' => 1,
+                'msg' => $lang_module['error_required_pass'],
+                'input' => 'looppassword'
+            ));
+        }
+        $userid = nv_createaccount($username, $row['password'], $email, $ingroups, $firstname, $lastname, $row['gender']);
+    } else {
+        $userid = $row['userid'];
+        if (empty($row['userid'])) {
+            nv_jsonOutput(array(
+                'error' => 1,
+                'msg' => $lang_module['error_required_choiceuserid'],
+                'input' => 'userid'
+            ));
+        }
+    }    
+    
     if (empty($error)) {
         
         try {
@@ -269,7 +271,6 @@ $xtpl->assign('MODULE_NAME', $module_name);
 $xtpl->assign('MODULE_UPLOAD', $module_upload);
 $xtpl->assign('OP', $op);
 $xtpl->assign('ROW', $row);
-var_dump($row);die;
 $xtpl->assign('URL_USERS', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&get_user_json=1');
 foreach ($array_gender as $index => $value) {
     $ck = $index == $row['gender'] ? 'checked="checked"' : '';

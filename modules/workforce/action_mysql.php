@@ -13,7 +13,6 @@ $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lan
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_salary";
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_part";
 $sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_part_detail";
-$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_history_salary";
 
 $sql_create_module = $sql_drop_module;
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "(
@@ -77,18 +76,6 @@ $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_
   weight smallint(4) unsigned NOT NULL DEFAULT '0',
   status tinyint(1) NOT NULL COMMENT 'Trạng thái',
   PRIMARY KEY (id)
-) ENGINE=MyISAM";
-
-
-$sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_history_salary(
-  id smallint(4) unsigned NOT NULL AUTO_INCREMENT,
-  userid mediumint(8) unsigned NOT NULL,
-  salary double unsigned NOT NULL,
-  allowance double unsigned NOT NULL DEFAULT '0' COMMENT 'Phụ cấp',
-  useradd mediumint(8) NOT NULL,
-  addtime varchar(10) NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE KEY userid (userid,addtime)
 ) ENGINE=MyISAM";
 
 $sql_create_module[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_part_detail(

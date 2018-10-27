@@ -18,14 +18,20 @@ require NV_ROOTDIR . '/includes/core/user_functions.php';
 // Duyệt tất cả các ngôn ngữ
 $language_query = $db->query('SELECT lang FROM ' . $db_config['prefix'] . '_setup_language WHERE setup = 1');
 while (list ($lang) = $language_query->fetch(3)) {
-    $mquery = $db->query("SELECT title, module_data FROM " . $db_config['prefix'] . "_" . $lang . "_modules WHERE module_file = 'workforce'");
+    $mquery = $db->query("SELECT title, module_data FROM " . $db_config['prefix'] . "_" . $lang . "_modules WHERE module_file = 'salary'");
     while (list ($mod, $mod_data) = $mquery->fetch(3)) {
         $sql = array();
         $data = array();
+        $data['groups_admin'] = '1';
+        $data['groups_use'] = '4';
+        $data['workdays'] = 24; // tổng số ngày công trong tháng
+        $data['insurrance'] = 10.5; // hệ số tính bảo hiểm
+        $data['overtime'] = 150; // tỉ lệ lương làm thêm giờ
 
-        $sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . " ADD  position varchar(100) NOT NULL AFTER jointime;";
+        foreach ($data as $config_name => $config_value) {
+            $sql[] = "INSERT INTO " . NV_CONFIG_GLOBALTABLE . " (lang, module, config_name, config_value) VALUES ('" . $lang . "', " . $db->quote($mod) . ", " . $db->quote($config_name) . ", " . $db->quote($config_value) . ")";
+        }
 
-        $sql[] = "DROP TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_history_salary";
         foreach ($sql as $_sql) {
             try {
                 $db->query($_sql);
