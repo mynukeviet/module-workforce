@@ -36,6 +36,33 @@ while (list ($lang) = $language_query->fetch(3)) {
 
         $sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_salary ADD bhxh DOUBLE UNSIGNED NOT NULL DEFAULT '0' AFTER total;";
 
+        $sql[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_part(
+          id smallint(4) unsigned NOT NULL AUTO_INCREMENT,
+          parentid smallint(4) unsigned NOT NULL DEFAULT '0',
+          title varchar(255) NOT NULL COMMENT 'Tên gọi bộ phận',
+          alias varchar(255) NOT NULL DEFAULT '',
+          office varchar(255) NOT NULL DEFAULT '',
+          address varchar(255) NOT NULL DEFAULT '',
+          phone varchar(20) NOT NULL DEFAULT '',
+          fax varchar(20) NOT NULL DEFAULT '',
+          website varchar(100) NOT NULL DEFAULT '',
+          email varchar(255) NOT NULL DEFAULT '',
+          note tinytext NOT NULL COMMENT 'Ghi chú',
+          lev smallint(4) unsigned NOT NULL DEFAULT '0',
+          numsub smallint(4) unsigned NOT NULL DEFAULT '0',
+          subid varchar(255) NOT NULL NULL DEFAULT '',
+          sort smallint(4) unsigned NOT NULL DEFAULT '0',
+          weight smallint(4) unsigned NOT NULL DEFAULT '0',
+          status tinyint(1) NOT NULL COMMENT 'Trạng thái',
+          PRIMARY KEY (id)
+          ) ENGINE=MyISAM";
+
+        $sql[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_part_detail(
+          userid mediumint(8) unsigned NOT NULL,
+          part smallint(4) NOT NULL COMMENT 'Thuộc bộ phận',
+          UNIQUE KEY userid(userid, part)
+          ) ENGINE=MyISAM";
+
         $sql[] = "CREATE TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_history_salary(
           id smallint(4) unsigned NOT NULL AUTO_INCREMENT,
           userid mediumint(8) unsigned NOT NULL,

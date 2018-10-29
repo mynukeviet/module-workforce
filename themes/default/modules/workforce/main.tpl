@@ -23,7 +23,7 @@
             <div class="col-xs-24 col-md-6">
                 <div class="form-group">
                     <select class="form-control" name="status">
-                        <option value="0">---{LANG.select_status}---</option>
+
                         <!-- BEGIN: select_status -->
                         <option value="{STATUS.key}"{STATUS.selected}>{STATUS.value}</option>
                         <!-- END: select_status -->

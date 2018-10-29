@@ -20,7 +20,7 @@ $array_gender = array(
 
 $array_status = array(
     1 => $lang_module['status_1'],
-    0 => $lang_module['status_0']
+    2 => $lang_module['status_2']
 );
 
 function nv_workforce_delete($id)

@@ -46,13 +46,13 @@
             <div class="form-group">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.main_phone}</strong> <span class="red">(*)</span></label>
                 <div class="col-sm-19 col-md-20">
-                    <input class="form-control" type="text" name="main_phone" value="{ROW.main_phone}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" />
+                    <input class="form-control" type="number" name="main_phone" value="{ROW.main_phone}" required="required" oninvalid="setCustomValidity( nv_required )" oninput="setCustomValidity('')" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-5 col-md-4 control-label"><strong>{LANG.other_phone}</strong></label>
                 <div class="col-sm-19 col-md-20">
-                    <input class="form-control" type="text" name="other_phone" value="{ROW.other_phone}" />
+                    <input class="form-control" type="number" name="other_phone" value="{ROW.other_phone}" />
                 </div>
             </div>
             <div class="form-group">

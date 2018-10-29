@@ -10,16 +10,16 @@ if (!defined('NV_IS_MOD_WORKFORCE')) die('Stop!!!');
 
 if ($nv_Request->isset_request('change_status', 'post')) {
     $id = $nv_Request->get_int('id', 'post', 0);
-
+    
     if (empty($id)) {
         die('NO_' . $id);
     }
-
+    
     $new_status = $nv_Request->get_int('new_status', 'post');
-
+    
     $sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . ' SET status=' . $new_status . ' WHERE id=' . $id;
     $db->query($sql);
-
+    
     $nv_Cache->delMod($module_name);
     die('OK_' . $id);
 }
@@ -49,7 +49,8 @@ $result['part'] = implode(", ", $array_parts_title);
 
 $arr = array();
 
-$approval = $db->query('SELECT * FROM ' . NV_PREFIXLANG . '_' . $module_data . '_history_salary WHERE userid = ' . $id);
+$rowuserid = $db->query('SELECT userid FROM ' . NV_PREFIXLANG . '_' . $module_data . ' WHERE id=' . $id)->fetch();
+$approval = $db->query('SELECT * FROM ' . NV_PREFIXLANG . '_salary_history_salary WHERE userid = ' . $rowuserid['userid']);
 while ($row = $approval->fetch()) {
     $row['addtime'] = nv_date('H:i d/m/Y', $row['addtime']);
     $row['salary'] = nv_number_format($row['salary']);
@@ -62,8 +63,10 @@ $xtpl->assign('URL_EDIT', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=
 $xtpl->assign('URL_DELETE', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;delete_id=' . $id . '&amp;delete_checkss=' . md5($id . NV_CACHE_PREFIX . $client_info['session_id']));
 $xtpl->assign('LANG', $lang_module);
 $xtpl->assign('WORKFORCE', $result);
-if (nv_workforce_check_premission()) {
+
+if (nv_workforce_check_premission() && isset($site_mods['salary'])) {
     $xtpl->assign('URL_APPROVAL', NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=history-salary&amp;id=' . $id);
+    $xtpl->parse('main.salary');
 }
 
 foreach ($array_status as $data => $value) {

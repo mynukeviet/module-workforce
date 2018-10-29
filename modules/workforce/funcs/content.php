@@ -102,30 +102,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
     $ingroups = $array_config['groups_use'];
 
     $part = !empty($row['part']) ? implode(',', $row['part']) : '';
-    if (!empty($row['btn_radio'])) {
-        if (empty($row['userid']) && empty($row['username'])) {
-            nv_jsonOutput(array(
-                'error' => 1,
-                'msg' => $lang_module['error_required_userid'],
-                'input' => 'userid'
-            ));
-        } elseif (empty($row['looppassword'])) {
-            nv_jsonOutput(array(
-                'error' => 1,
-                'msg' => $lang_module['error_required_looppassword'],
-                'input' => 'looppassword'
-            ));
-        } elseif ($row['password'] != $row['looppassword']) {
-            nv_jsonOutput(array(
-                'error' => 1,
-                'msg' => $lang_module['error_required_pass'],
-                'input' => 'looppassword'
-            ));
-        }
-        $userid = nv_createaccount($username, $row['password'], $email, $ingroups, $firstname, $lastname, $gender);
-    } else {
-        $userid = $row['userid'];
-    }
+
     if (empty($row['first_name'])) {
         nv_jsonOutput(array(
             'error' => 1,
@@ -157,6 +134,38 @@ if ($nv_Request->isset_request('submit', 'post')) {
             'input' => 'main_email'
         ));
     }
+    if (!empty($row['btn_radio'])) {
+        if (empty($row['username'])) {
+            nv_jsonOutput(array(
+                'error' => 1,
+                'msg' => $lang_module['error_required_username'],
+                'input' => 'username'
+            ));
+        } elseif (empty($row['looppassword'])) {
+            nv_jsonOutput(array(
+                'error' => 1,
+                'msg' => $lang_module['error_required_looppassword'],
+                'input' => 'looppassword'
+            ));
+        } elseif ($row['password'] != $row['looppassword']) {
+            nv_jsonOutput(array(
+                'error' => 1,
+                'msg' => $lang_module['error_required_pass'],
+                'input' => 'looppassword'
+            ));
+        }
+        $userid = nv_createaccount($username, $row['password'], $email, $ingroups, $firstname, $lastname, $row['gender']);
+    } else {
+        $userid = $row['userid'];
+        if (empty($row['userid'])) {
+            nv_jsonOutput(array(
+                'error' => 1,
+                'msg' => $lang_module['error_required_choiceuserid'],
+                'input' => 'userid'
+            ));
+        }
+    }
+
     if (empty($error)) {
 
         try {
@@ -209,7 +218,7 @@ if ($nv_Request->isset_request('submit', 'post')) {
                     $sth = $db->prepare('INSERT INTO ' . NV_PREFIXLANG . '_' . $module_data . '_part_detail (userid, part) VALUES(:userid, :part)');
                     foreach ($row['part'] as $partid) {
                         if (!in_array($partid, $row['part_old'])) {
-                            $sth->bindParam(':userid', $row['userid'], PDO::PARAM_INT);
+                            $sth->bindParam(':userid', $userid, PDO::PARAM_INT);
                             $sth->bindParam(':part', $partid, PDO::PARAM_INT);
                             $sth->execute();
                         }
@@ -258,6 +267,7 @@ if ($row['userid'] > 0) {
     $userinfo = $rows = $db->query('SELECT userid, first_name, last_name, username FROM ' . NV_USERS_GLOBALTABLE . ' WHERE userid=' . $row['userid'])->fetch();
     $userinfo['fullname'] = nv_show_name_user($userinfo['first_name'], $userinfo['last_name'], $userinfo['username']);
 }
+
 $xtpl = new XTemplate($op . '.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
 $xtpl->assign('LANG', $lang_module);
 $xtpl->assign('MODULE_NAME', $module_name);
