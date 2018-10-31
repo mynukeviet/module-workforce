@@ -32,6 +32,8 @@ while (list ($lang) = $language_query->fetch(3)) {
 
         $sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . " ADD  position varchar(100) NOT NULL AFTER jointime;";
 
+        $sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . " ADD  part varchar(100) NOT NULL COMMENT 'Thuộc bộ phận' AFTER position;";
+
         $sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_salary ADD holiday DOUBLE UNSIGNED NOT NULL DEFAULT '0' AFTER workday, ADD holiday_salary DOUBLE UNSIGNED NOT NULL DEFAULT '0' AFTER holiday;";
 
         $sql[] = "ALTER TABLE " . $db_config['prefix'] . "_" . $lang . "_" . $mod_data . "_salary ADD bhxh DOUBLE UNSIGNED NOT NULL DEFAULT '0' AFTER total;";
