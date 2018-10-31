@@ -62,6 +62,7 @@
         </tbody>
     </table>
 </div>
+<!-- BEGIN: approval -->
 <div class="panel panel-default">
     <div class="panel-heading">{LANG.hisapproval}</div>
     <table class="table table-bordered table-striped">
@@ -71,14 +72,15 @@
                 <th width="220">{LANG.salary}</th>
                 <th>{LANG.allowance}</th>
             </tr>
-            <!-- BEGIN: approval -->
+            <!-- BEGIN: loop -->
             <tr>
                 <td>{APPROVAL.addtime}</td>
                 <td>{APPROVAL.salary}</td>
                 <td>{APPROVAL.allowance}</td>
             </tr>
-            <!-- END: approval -->
+            <!-- END: loop -->
         </tbody>
     </table>
 </div>
+<!-- END: approval -->
 <!-- END: main -->

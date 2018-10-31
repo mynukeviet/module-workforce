@@ -10,16 +10,16 @@ if (!defined('NV_IS_MOD_WORKFORCE')) die('Stop!!!');
 
 if ($nv_Request->isset_request('change_status', 'post')) {
     $id = $nv_Request->get_int('id', 'post', 0);
-    
+
     if (empty($id)) {
         die('NO_' . $id);
     }
-    
+
     $new_status = $nv_Request->get_int('new_status', 'post');
-    
+
     $sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . ' SET status=' . $new_status . ' WHERE id=' . $id;
     $db->query($sql);
-    
+
     $nv_Cache->delMod($module_name);
     die('OK_' . $id);
 }
@@ -45,17 +45,16 @@ foreach ($result['part'] as $partid) {
     $array_parts_title[] = $array_part_list[$partid]['title'];
 }
 $result['part'] = implode(", ", $array_parts_title);
-// xet duyet tang luong
 
-$arr = array();
-
-$rowuserid = $db->query('SELECT userid FROM ' . NV_PREFIXLANG . '_' . $module_data . ' WHERE id=' . $id)->fetch();
-$approval = $db->query('SELECT * FROM ' . NV_PREFIXLANG . '_salary_history_salary WHERE userid = ' . $rowuserid['userid']);
-while ($row = $approval->fetch()) {
-    $row['addtime'] = nv_date('H:i d/m/Y', $row['addtime']);
-    $row['salary'] = nv_number_format($row['salary']);
-    $row['allowance'] = nv_number_format($row['allowance']);
-    $arr[$row['id']] = $row;
+if(isset($site_mods['salary'])){
+    $array_salary = array();
+    $approval = $db->query('SELECT * FROM ' . NV_PREFIXLANG . '_salary_history_salary WHERE userid = ' . $result);
+    while ($row = $approval->fetch()) {
+        $row['addtime'] = nv_date('H:i d/m/Y', $row['addtime']);
+        $row['salary'] = nv_number_format($row['salary']);
+        $row['allowance'] = nv_number_format($row['allowance']);
+        $array_salary[$row['id']] = $row;
+    }
 }
 
 $xtpl = new XTemplate($op . '.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_file);
@@ -79,8 +78,11 @@ foreach ($array_status as $data => $value) {
     $xtpl->parse('main.status');
 }
 
-foreach ($arr as $approval) {
-    $xtpl->assign('APPROVAL', $approval);
+if(!empty($array_salary)){
+    foreach ($array_salary as $approval) {
+        $xtpl->assign('APPROVAL', $approval);
+        $xtpl->parse('main.approval.loop');
+    }
     $xtpl->parse('main.approval');
 }
 
