@@ -8,8 +8,6 @@
  */
 if (!defined('NV_MAINFILE')) die('Stop!!!');
 
-$workforce_list = nv_crm_list_workforce();
-
 $sql = 'SELECT id, title, lev, numsub, subid FROM ' . NV_PREFIXLANG . '_workforce_part WHERE status=1 ORDER BY sort ASC';
 $result = $db->query($sql);
 $array_part_list = array();
@@ -30,6 +28,8 @@ while (list ($id_i, $title_i, $lev_i, $numsub, $subid) = $result->fetch(3)) {
         'subcatid' => $subid
     );
 }
+
+$workforce_list = nv_crm_list_workforce();
 
 function nv_crm_list_workforce($in_groups = '', $partid = 0)
 {
