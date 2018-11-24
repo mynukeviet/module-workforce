@@ -10,9 +10,9 @@ if (!defined('NV_MAINFILE')) die('Stop!!!');
 
 $module_version = array(
     'name' => 'Workforce',
-    'modfuncs' => 'main,detail,content,salary,salary-content,feedback,part,history-salary',
+    'modfuncs' => 'main,detail,content,feedback,part,history-salary',
     'change_alias' => '',
-    'submenu' => 'main,salary,part,history-salary',
+    'submenu' => 'main,part,history-salary',
     'is_sysmod' => 1,
     'virtual' => 0,
     'version' => '1.0.00',

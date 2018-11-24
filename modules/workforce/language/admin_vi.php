@@ -20,7 +20,3 @@ $lang_module['config'] = 'Cấu hình';
 $lang_module['config_groups_admin'] = 'Nhóm điều hành';
 $lang_module['config_groups_use'] = 'Nhóm sử dụng';
 $lang_module['config_general'] = 'Chung';
-$lang_module['config_salary'] = 'Bảng lương';
-$lang_module['config_workdays'] = 'Ngày công trong tháng';
-$lang_module['config_insurrance'] = 'Hệ số bảo hiểm';
-$lang_module['config_overtime'] = 'Tỉ lệ lương làm thêm';
