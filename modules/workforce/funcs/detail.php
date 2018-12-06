@@ -48,7 +48,7 @@ $result['part'] = implode(", ", $array_parts_title);
 
 if(isset($site_mods['salary'])){
     $array_salary = array();
-    $approval = $db->query('SELECT * FROM ' . NV_PREFIXLANG . '_salary_history_salary WHERE userid = ' . $result);
+    $approval = $db->query('SELECT * FROM ' . NV_PREFIXLANG . '_salary_history_salary WHERE userid = ' . $result['userid']);
     while ($row = $approval->fetch()) {
         $row['addtime'] = nv_date('H:i d/m/Y', $row['addtime']);
         $row['salary'] = nv_number_format($row['salary']);
